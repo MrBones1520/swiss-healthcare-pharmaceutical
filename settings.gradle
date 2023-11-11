@@ -1,0 +1,15 @@
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core/" }
+        gradlePluginPortal()
+    }
+    plugins {
+        id "org.grails.grails-web" version "6.1.0"
+        id "org.grails.plugins.views-json" version "3.0.0"
+        id "org.asciidoctor.jvm.convert" version "4.0.0-alpha.1"
+    }
+}
+
+rootProject.name="swiss-healthcare-pharmaceutical"
