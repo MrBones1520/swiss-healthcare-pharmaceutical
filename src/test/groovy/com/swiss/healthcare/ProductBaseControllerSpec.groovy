@@ -1,13 +1,14 @@
 package com.swiss.healthcare
 
+import com.swiss.healthcare.entity.products.ProductBase
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class ProductSpec extends Specification implements DomainUnitTest<Product> {
+class ProductBaseControllerSpec extends Specification implements DomainUnitTest<ProductBase> {
 
      void "test domain constraints"() {
         when:
-        Product domain = new Product()
+        ProductBase domain = new ProductBase()
         //TODO: Set domain props here
 
         then:

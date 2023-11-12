@@ -1,0 +1,11 @@
+model {
+    Object data
+    String message
+    String code
+}
+
+json {
+    message message
+    internalCode code
+    entity g.render(data)
+}

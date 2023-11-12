@@ -1,0 +1,11 @@
+response.status 206
+
+model {
+    String message
+    String codeError
+}
+
+json {
+    message message
+    error codeError
+}

@@ -1,9 +1,10 @@
 package com.swiss.healthcare
 
+import com.swiss.healthcare.entity.products.ProductStatus
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class ProductStatusSpec extends Specification implements DomainUnitTest<ProductStatus> {
+class ProductBaseControllerStatusSpec extends Specification implements DomainUnitTest<ProductStatus> {
 
      void "test domain constraints"() {
         when:

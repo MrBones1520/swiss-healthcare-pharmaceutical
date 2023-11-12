@@ -1,5 +1,6 @@
 package com.swiss.healthcare
 
+import com.swiss.healthcare.entity.User
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
