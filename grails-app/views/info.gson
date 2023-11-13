@@ -5,7 +5,7 @@ model {
 }
 
 json {
-    message message
+    message messageSource.getMessage()
     internalCode code
     entity g.render(data)
 }

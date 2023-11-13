@@ -3,34 +3,46 @@ package com.swiss.healthcare
 import com.swiss.healthcare.entity.products.ProductBase
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
-import org.grails.datastore.gorm.GormEntity
 import org.springframework.http.HttpStatus
 
 class ProductBaseController extends RestfulController<ProductBase> {
 
     static allowedMethods = [save:'POST', index: 'GET']
 
-    ProductBaseController(Class<ProductBase> domainClass) {
-        super(domainClass, false)
-    }
-
-    ProductBaseController(Class<ProductBase> domainClass, boolean readOnly) {
-        super(domainClass, readOnly)
+    ProductBaseController() {
+        super(ProductBase)
     }
 
     @Transactional
     def save(){
-        def exist = resource.find {it.barcode == request.JSON['barcode']}
-        if(exist){
-            respond exist, status: HttpStatus.FOUND.value()
+        def product = ProductBase.get(getBarcode())
+
+        if(product){
+            respond([message: 'duplicated', code: '0332321', data: product], status: HttpStatus.FOUND.value())
         } else {
             super.save()
         }
     }
 
+    @Transactional
+    def delete(String id){
+        def product = ProductBase.get(id)
+
+        if(product){
+            product.delete()
+            respond([message: "Se elimino producto base", code: '002541', data: [barcode: product.barcode]], status: HttpStatus.FOUND.value())
+        } else {
+            respond([message: "No existe el producto base", code: '002541', data: [barcode: product.barcode]], status: HttpStatus.FOUND.value())
+        }
+    }
+
     @Override
     protected Object getObjectToBind() {
-        return request.JSON
+        request.JSON
+    }
+
+    protected String getBarcode(){
+        request.JSON['barcode']
     }
 
 }

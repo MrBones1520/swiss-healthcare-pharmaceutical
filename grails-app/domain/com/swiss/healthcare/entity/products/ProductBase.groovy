@@ -1,12 +1,9 @@
 package com.swiss.healthcare.entity.products
 
-import com.swiss.healthcare.ProductBaseController
-import grails.rest.Resource
 import org.grails.datastore.gorm.GormEntity
 
 import java.sql.Timestamp
 
-@Resource(superClass = ProductBaseController)
 class ProductBase implements GormEntity<ProductBase> {
 
     String barcode
