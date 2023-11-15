@@ -1,30 +1,33 @@
 package com.swiss.healthcare.entity.inventory
 
-import com.swiss.healthcare.entity.User
-import com.swiss.healthcare.entity.products.ProductItem
+import com.swiss.healthcare.entity.auth.User
+import com.swiss.healthcare.entity.inventory.products.ProductItem
+import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
 import java.sql.Timestamp
 
+@ToString(includes = ['folio', 'dateCreated', 'user'], includeNames = true, includePackage = false)
 class Sale implements GormEntity<Sale> {
 
   String folio
-  List<ProductItem> productList
   User user
   Timestamp dateCreated
 
   static constraints = {
-    folio unique: true
-    productList validator: validProductListActive
+    folio unique: true, blank: false
+    products validator: validProductListActive
   }
 
   static mapping = {
-    id name: 'folio'
+    id name: 'folio', generator: 'assigned'
   }
 
+  static hasMany = [products: ProductItem]
+
   static validProductListActive = {
-    def productInactive = productList.findAll {!it.status.isActive }
-    if(productInactive) return ['productInactive', productInactive*.uid, folio]
+    def productInactive = products.findAll {it.status.enable}
+    if(productInactive) return ['productInactive', products*.uid, folio]
   }
 
 

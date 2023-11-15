@@ -1,4 +1,4 @@
-package com.swiss.healthcare
+package com.swiss.healthcare.controller
 
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager

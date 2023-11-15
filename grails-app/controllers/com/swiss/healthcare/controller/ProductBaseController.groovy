@@ -1,6 +1,6 @@
-package com.swiss.healthcare
+package com.swiss.healthcare.controller
 
-import com.swiss.healthcare.entity.products.ProductBase
+import com.swiss.healthcare.entity.inventory.products.ProductBase
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import org.springframework.http.HttpStatus

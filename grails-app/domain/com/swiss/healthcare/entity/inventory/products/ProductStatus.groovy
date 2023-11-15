@@ -1,23 +1,26 @@
-package com.swiss.healthcare.entity.products
+package com.swiss.healthcare.entity.inventory.products
 
 import grails.rest.Resource
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
 import java.sql.Timestamp
 
 @Resource
+@EqualsAndHashCode(includes = ['name', 'description'])
+@ToString(includes = ['name', 'description', 'enable'], includeNames = true, includePackage = false)
 class ProductStatus implements GormEntity<ProductStatus> {
 
     String name
     String description
-    boolean isActive = true
+    boolean enable = true
     Timestamp dateCreated
     Timestamp lastUpdated
 
     static constraints = {
         name unique: true
         description blank: true, nullable: false
-        isActive column: 'is_active'
     }
     static mapping = {
         name updateable: false

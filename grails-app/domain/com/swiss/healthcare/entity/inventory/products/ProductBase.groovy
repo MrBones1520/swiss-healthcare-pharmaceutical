@@ -1,9 +1,13 @@
-package com.swiss.healthcare.entity.products
+package com.swiss.healthcare.entity.inventory.products
 
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
 import java.sql.Timestamp
 
+@EqualsAndHashCode(includes = ['barcode', 'name', 'description'])
+@ToString(includes = ['barcode', 'name', 'description'], includeNames = true, includePackage = false)
 class ProductBase implements GormEntity<ProductBase> {
 
     String barcode

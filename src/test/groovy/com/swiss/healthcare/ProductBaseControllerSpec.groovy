@@ -1,6 +1,6 @@
 package com.swiss.healthcare
 
-import com.swiss.healthcare.entity.products.ProductBase
+import com.swiss.healthcare.entity.inventory.products.ProductBase
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 

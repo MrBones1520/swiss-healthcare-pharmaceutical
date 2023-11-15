@@ -13,6 +13,7 @@ class UrlMappings{
         get "/products/status"(controller: 'productStatus', action: 'index')
         post "/products/status"(controller: 'productStatus', action: 'save')
 
+        "/persons"(resources: 'person')
         "/users"(resources: 'user')
 
         "500"(view:'/error')
