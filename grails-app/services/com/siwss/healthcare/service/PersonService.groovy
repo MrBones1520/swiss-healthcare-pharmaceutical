@@ -8,6 +8,6 @@ import grails.gorm.transactions.Transactional
 interface PersonService {
 
     @Transactional
-    def save(Person person)
+    Person save(Person person)
 
 }

@@ -9,6 +9,4 @@ interface ProductStatusService {
 
     ProductStatus save(ProductStatus arg)
 
-    ProductStatus findByUser(User user)
-
 }

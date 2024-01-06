@@ -22,10 +22,6 @@ class Person implements GormEntity<Person>{
     String fatherSName
     String motherSName
     Date birthday
-    Timestamp dateCreated
-    Timestamp lastUpdated
-
-    static hasMany = [users: User]
 
     static constraints = {
         firstName size: 1..30
