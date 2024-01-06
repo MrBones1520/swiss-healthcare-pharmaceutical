@@ -15,6 +15,7 @@ class UrlMappings{
 
         "/persons"(resources: 'person')
         "/users"(resources: 'user')
+        "/sales"(resources: 'sale')
 
         "500"(view:'/error')
         "404"(view:'/notFound')

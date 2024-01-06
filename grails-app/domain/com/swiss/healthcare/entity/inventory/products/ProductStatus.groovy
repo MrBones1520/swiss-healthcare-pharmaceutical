@@ -15,8 +15,6 @@ class ProductStatus implements GormEntity<ProductStatus> {
     String name
     String description
     boolean enable = true
-    Timestamp dateCreated
-    Timestamp lastUpdated
 
     static constraints = {
         name unique: true

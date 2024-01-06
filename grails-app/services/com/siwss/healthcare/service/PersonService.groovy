@@ -7,7 +7,6 @@ import grails.gorm.transactions.Transactional
 @Service(Person)
 interface PersonService {
 
-    @Transactional
     Person save(Person person)
 
 }

@@ -13,8 +13,6 @@ class ProductBase implements GormEntity<ProductBase> {
     String barcode
     String name
     String description
-    Timestamp dateCreated
-    Timestamp lastUpdated
 
     static constraints = {
         barcode unique: true, size: 7..25
@@ -23,7 +21,7 @@ class ProductBase implements GormEntity<ProductBase> {
     }
 
     static mapping = {
-        id name: 'barcode', generator: 'assigned'
+        id name: 'barcode'
         barcode updateable: false
     }
 

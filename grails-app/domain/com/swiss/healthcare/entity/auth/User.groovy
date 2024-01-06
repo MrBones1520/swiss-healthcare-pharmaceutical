@@ -16,9 +16,8 @@ class User implements GormEntity<User>{
     String email
     String username
     String password
+    List<Person> person
     boolean enabled = true
-    Timestamp dateCreated
-    Timestamp lastUpdated
 
     static constraints = {
         email email:true, unique:true
@@ -30,8 +29,6 @@ class User implements GormEntity<User>{
         password column: 'password'
         autowire true
     }
-
-    static belongsTo = [person: Person]
 
     static transients = ['springSecurityService']
 

@@ -5,4 +5,11 @@ import grails.gorm.services.Service
 
 @Service(Sale)
 interface SaleService {
+
+    Sale save(Sale sale)
+
+    Sale get(Serializable id)
+
+    long count()
+
 }
