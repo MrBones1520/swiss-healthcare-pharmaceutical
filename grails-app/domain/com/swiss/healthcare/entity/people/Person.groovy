@@ -3,6 +3,7 @@ package com.swiss.healthcare.entity.people
 import grails.rest.Resource
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.apache.tools.ant.util.DateUtils
 import org.grails.datastore.gorm.GormEntity
 
 @Resource

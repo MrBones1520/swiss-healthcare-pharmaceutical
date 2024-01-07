@@ -9,6 +9,6 @@ interface ProductBaseService {
 
     ProductBase save(ProductBase productBase)
 
-    ProductBase get(Serializable id)
+    ProductBase get(String barcode)
 
 }

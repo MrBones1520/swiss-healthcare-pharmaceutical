@@ -53,7 +53,7 @@ class BootStrap {
             printCube(base)
 
             log.info("Try create product item")
-            def productItem = productItemService.save(new ProductItem(status: productStatusService.get(1), descriptor: productBaseService.get(1)))
+            def productItem = productItemService.save(new ProductItem(status: productStatusService.get(1), descriptor: productBaseService.get("000000000")))
             printCube(productItem)
 
             log.info("Try create sale")
@@ -66,9 +66,9 @@ class BootStrap {
     }
 
     def printCube = { value ->
-        log.info("=".repeat(50))
+        log.info("=".repeat(100))
         log.info("${value}")
-        log.info("=".repeat(50))
+        log.info("=".repeat(100))
     }
 
 }

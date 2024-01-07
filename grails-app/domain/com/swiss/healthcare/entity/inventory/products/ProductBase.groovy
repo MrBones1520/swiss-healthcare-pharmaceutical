@@ -21,8 +21,9 @@ class ProductBase implements GormEntity<ProductBase> {
     }
 
     static mapping = {
-        id name: 'barcode'
+        id name: 'barcode', generator: 'assigned'
         barcode updateable: false
     }
+
 
 }
