@@ -44,6 +44,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    //swagger
+    //implementation('io.springfox:springfox-swagger2:3.0.0')
+    //implementation('io.springfox:springfox-boot-starter:3.0.0')
+    //implementation('io.springfox:springfox-swagger-ui:3.0.0')
+    //>
     compileOnly("io.micronaut:micronaut-inject-groovy")
     console("org.grails:grails-console")
     runtimeOnly("com.h2database:h2")
@@ -57,13 +62,12 @@ dependencies {
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("io.micronaut:micronaut-http-client")
-
 }
 
-ext {
-    dockerTag = "swiss-healthcare-api:${project.version}"
-    dockerBuildDir = mkdir("${buildDir}/docker")
-}
+//ext {
+//   // dockerTag = "swiss-healthcare-api:${project.version}"
+//    dockerBuildDir = mkdir("${buildDir}/docker")
+//}
 
 application {
     mainClass.set("com.swiss.healthcare.Application")

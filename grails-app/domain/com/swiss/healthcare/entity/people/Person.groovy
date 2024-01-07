@@ -1,12 +1,9 @@
 package com.swiss.healthcare.entity.people
 
-import com.swiss.healthcare.entity.auth.User
 import grails.rest.Resource
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
-
-import java.sql.Timestamp
 
 @Resource
 @EqualsAndHashCode(includes = ['firstName', 'secondName', 'fatherSName', 'motherSName', 'birthday'])

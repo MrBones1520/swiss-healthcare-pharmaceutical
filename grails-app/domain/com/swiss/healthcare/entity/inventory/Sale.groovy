@@ -6,6 +6,8 @@ import grails.rest.Resource
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
+import javax.persistence.ManyToOne
+
 @Resource
 @ToString(includes = ['folio', 'user', 'products'], includeNames = true, includePackage = false)
 class Sale implements GormEntity<Sale> {
@@ -19,7 +21,7 @@ class Sale implements GormEntity<Sale> {
   }
 
   static mapping = {
-    id name: 'folio'
+    id name: 'folio', generator: 'uuid'
   }
 
 }

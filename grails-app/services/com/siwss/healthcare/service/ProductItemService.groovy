@@ -8,4 +8,6 @@ interface ProductItemService {
 
     ProductItem save(ProductItem productItem)
 
+    ProductItem get(Serializable id)
+
 }

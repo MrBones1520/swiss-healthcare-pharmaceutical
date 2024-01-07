@@ -9,9 +9,7 @@ class ProductBaseController extends RestfulController<ProductBase> {
 
     static allowedMethods = [save:'POST', index: 'GET']
 
-    ProductBaseController() {
-        super(ProductBase)
-    }
+    ProductBaseController() { super(ProductBase) }
 
     @Transactional
     def save(){

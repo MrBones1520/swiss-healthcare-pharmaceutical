@@ -5,14 +5,9 @@ class UrlMappings{
 
         "/"(controller: 'application', action:'index')
 
-        get "/products"(controller: 'productBase', action: 'index')
-        post "/products"(controller: 'productBase', action: 'save')
-        put "/products/$id"(controller: 'productBase', action: 'update')
-        delete "/products/$id"(controller: 'productBase', action: 'delete')
-
-        get "/products/status"(controller: 'productStatus', action: 'index')
-        post "/products/status"(controller: 'productStatus', action: 'save')
-
+        "/products/status"(resources: 'productStatus', excludes:['delete', 'update'])
+        "/products/item"(resources: 'productItem', excludes:['insert', 'update'])
+        "/products/base"(resources: 'productBase')
         "/persons"(resources: 'person')
         "/users"(resources: 'user')
         "/sales"(resources: 'sale')

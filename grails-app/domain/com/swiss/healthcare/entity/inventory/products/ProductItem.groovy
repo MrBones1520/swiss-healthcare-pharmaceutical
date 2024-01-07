@@ -1,11 +1,10 @@
 package com.swiss.healthcare.entity.inventory.products
 
-import com.swiss.healthcare.entity.auth.User
+import grails.rest.Resource
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
-import java.sql.Timestamp
-
+@Resource
 @ToString(includeFields = true, includePackage = false)
 class ProductItem implements GormEntity<ProductItem>{
 
