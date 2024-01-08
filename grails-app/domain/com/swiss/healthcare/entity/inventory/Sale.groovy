@@ -26,6 +26,7 @@ class Sale implements GormEntity<Sale> {
   static mapping = {
     id name: 'folio', generator: 'uuid'
     products fetch: 'join'
+    user fetch: 'join'
   }
 
   static hasMany = [products:ProductItem]

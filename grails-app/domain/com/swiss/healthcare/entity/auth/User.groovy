@@ -1,12 +1,11 @@
 package com.swiss.healthcare.entity.auth
 
+import com.swiss.healthcare.entity.inventory.Sale
 import com.swiss.healthcare.entity.people.Person
 import grails.rest.Resource
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
-
-import java.sql.Timestamp
 
 @Resource
 @EqualsAndHashCode(includes = ['username', 'email', 'enabled'])
@@ -34,6 +33,10 @@ class User implements GormEntity<User>{
     }
 
     static transients = ['springSecurityService']
+
+    List<Sale> getSales(){
+        Sale.findAll {user == this }
+    }
 
     Set<SecurityRole> getAuthorities(){
         UserSecurityRole.findAllByUser(this) as List<UserSecurityRole>*.securityRole as Set<SecurityRole>

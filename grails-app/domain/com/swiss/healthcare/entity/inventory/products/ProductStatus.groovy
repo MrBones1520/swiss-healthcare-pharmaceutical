@@ -20,6 +20,8 @@ class ProductStatus implements GormEntity<ProductStatus> {
     String description
     boolean enable = true
 
+    Date dateCreated
+
     static constraints = {
         name unique: true
         description blank: true, nullable: false

@@ -21,6 +21,8 @@ class Person implements GormEntity<Person>{
     String motherSName
     Date birthday
 
+    Date dateCreated
+
     static constraints = {
         firstName size: 1..30
         secondName nullable:true
