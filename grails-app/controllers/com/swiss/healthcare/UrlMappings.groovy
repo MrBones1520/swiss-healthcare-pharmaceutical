@@ -10,7 +10,7 @@ class UrlMappings{
         "/products/item"(resources: 'productItem')
         "/persons"(resources: 'person')
         "/users"(resources: 'user')
-        "/sales"(resources: 'sale')
+        "/sales"(resources: 'sale', excludes:['delete', 'update'])
 
         "500"(view:'/error')
         "404"(view:'/notFound')

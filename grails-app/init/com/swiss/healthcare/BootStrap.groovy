@@ -60,7 +60,7 @@ class BootStrap {
             def sale = saleService.save(
                     new Sale(
                             user: userService.get(1),
-                            products: [productItemService.get(1)])
+                            products: [productItemService.get("000000000")])
             )
             printCube(sale)
     }

@@ -16,7 +16,6 @@ class Sale implements GormEntity<Sale> {
 
   String folio
   User user
-  List<ProductItem> products
 
   static constraints = {
     folio unique: true, blank: false
@@ -24,6 +23,9 @@ class Sale implements GormEntity<Sale> {
 
   static mapping = {
     id name: 'folio', generator: 'uuid'
+    products fetch: 'join'
   }
+
+  static hasMany = [products:ProductItem]
 
 }
