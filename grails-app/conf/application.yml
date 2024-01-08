@@ -4,6 +4,13 @@ info:
     version: '0.1'
     grailsVersion: 6.1.0
 
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+
 environments:
   development:
     dataSource:

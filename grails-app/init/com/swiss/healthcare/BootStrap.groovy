@@ -49,11 +49,11 @@ class BootStrap {
             printCube(inventory)
 
             log.info("Try create product base")
-            def base = productBaseService.save(new ProductBase(barcode: "000000000", name: 'coca cola', description: '600ml'))
+            def base = productBaseService.save(new ProductBase(name: 'coca cola', description: '600ml'))
             printCube(base)
 
             log.info("Try create product item")
-            def productItem = productItemService.save(new ProductItem(status: productStatusService.get(1), descriptor: productBaseService.get("000000000")))
+            def productItem = productItemService.save(new ProductItem(barcode: "000000000", status: productStatusService.get(1), descriptor: productBaseService.get(1)))
             printCube(productItem)
 
             log.info("Try create sale")
