@@ -9,7 +9,11 @@ import java.sql.Timestamp
 
 @Resource
 @EqualsAndHashCode(includes = ['name', 'description'])
-@ToString(includes = ['name', 'description', 'enable'], includeNames = true, includePackage = false)
+@ToString(
+        includes = ['name', 'description', 'enable'],
+        includeNames = true,
+        includePackage = false
+)
 class ProductStatus implements GormEntity<ProductStatus> {
 
     String name

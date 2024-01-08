@@ -1,4 +1,4 @@
-package com.siwss.healthcare.service
+package com.swiss.healthcare.service
 
 import com.swiss.healthcare.entity.people.Person
 import grails.gorm.services.Service

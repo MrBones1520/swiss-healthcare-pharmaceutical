@@ -1,4 +1,4 @@
-package com.siwss.healthcare.service
+package com.swiss.healthcare.service
 
 import com.swiss.healthcare.entity.auth.User
 import com.swiss.healthcare.entity.inventory.products.ProductBase

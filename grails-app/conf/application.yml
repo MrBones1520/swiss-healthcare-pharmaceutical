@@ -41,6 +41,8 @@ environments:
         initialSize: 5
 
 grails:
+  cors:
+    enabled: true
   gorm:
     reactor:
       events: false

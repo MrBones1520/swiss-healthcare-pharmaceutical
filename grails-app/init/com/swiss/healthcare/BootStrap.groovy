@@ -1,10 +1,10 @@
 package com.swiss.healthcare
 
-import com.siwss.healthcare.service.ProductBaseService
-import com.siwss.healthcare.service.ProductItemService
-import com.siwss.healthcare.service.ProductStatusService
-import com.siwss.healthcare.service.SaleService
-import com.siwss.healthcare.service.UserService
+import com.swiss.healthcare.service.ProductBaseService
+import com.swiss.healthcare.service.ProductItemService
+import com.swiss.healthcare.service.ProductStatusService
+import com.swiss.healthcare.service.SaleService
+import com.swiss.healthcare.service.UserService
 import com.swiss.healthcare.entity.auth.User
 import com.swiss.healthcare.entity.inventory.Sale
 import com.swiss.healthcare.entity.inventory.products.ProductBase

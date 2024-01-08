@@ -7,7 +7,11 @@ import org.grails.datastore.gorm.GormEntity
 
 @Resource
 @EqualsAndHashCode(includes = ['name', 'description'])
-@ToString(includes = ['name', 'description'], includeNames = true, includePackage = false)
+@ToString(
+        includes = ['name', 'description'],
+        includeNames = true,
+        includePackage = false
+)
 class ProductBase implements GormEntity<ProductBase> {
 
     String name

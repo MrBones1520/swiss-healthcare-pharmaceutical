@@ -7,7 +7,11 @@ import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
 @Resource
-@ToString(includes = ['folio', 'user', 'products'], includeNames = true, includePackage = false)
+@ToString(
+        includes = ['folio', 'user', 'products'],
+        includeNames = true,
+        includePackage = false
+)
 class Sale implements GormEntity<Sale> {
 
   String folio

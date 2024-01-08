@@ -7,7 +7,11 @@ import org.grails.datastore.gorm.GormEntity
 
 @Resource
 @EqualsAndHashCode(includes = ['barcode', 'descriptor', 'status'])
-@ToString(includes = ['barcode', 'descriptor', 'status'], includeFields = true, includePackage = false)
+@ToString(
+        includes = ['barcode', 'descriptor', 'status'],
+        includeFields = true,
+        includePackage = false
+)
 class ProductItem implements GormEntity<ProductItem>{
 
     String barcode
