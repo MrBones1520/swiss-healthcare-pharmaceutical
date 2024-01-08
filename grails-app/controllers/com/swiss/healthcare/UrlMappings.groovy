@@ -6,8 +6,8 @@ class UrlMappings{
         "/"(controller: 'application', action:'index')
 
         "/products/status"(resources: 'productStatus', excludes:['delete', 'update'])
+        "/products/base"(resources: 'productBase', excludes:['delete'])
         "/products/item"(resources: 'productItem')
-        "/products/base"(resources: 'productBase')
         "/persons"(resources: 'person')
         "/users"(resources: 'user')
         "/sales"(resources: 'sale')
