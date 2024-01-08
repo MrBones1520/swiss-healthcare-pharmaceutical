@@ -17,6 +17,8 @@ class Sale implements GormEntity<Sale> {
   String folio
   User user
 
+  Date dateCreated
+
   static constraints = {
     folio unique: true, blank: false
   }

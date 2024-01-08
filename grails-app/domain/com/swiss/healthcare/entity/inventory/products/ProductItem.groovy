@@ -18,6 +18,8 @@ class ProductItem implements GormEntity<ProductItem>{
     ProductBase descriptor
     ProductStatus status
 
+    Date dateCreated
+
     static constraints = {
         barcode unique: true, size: 7..25
     }

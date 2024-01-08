@@ -19,6 +19,9 @@ class User implements GormEntity<User>{
     List<Person> person
     boolean enabled = true
 
+    Date dateCreated
+    Date lastUpdated
+
     static constraints = {
         email email:true, unique:true
         username blank:true, unique:true
