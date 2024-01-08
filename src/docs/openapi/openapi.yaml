@@ -1,0 +1,11 @@
+title: Swiss Healthcare Pharmaceutical
+description: This is a sample server for a pharmaceutical store.
+termsOfService: http://swiss-healthcare-pharmaceutical.com/terms/
+contact:
+  name: API Swiss Healthcare
+  url: http://www.swiss-healthcare-pharmaceutical.com/support
+  email: aldodanielsb@gmail.com.com
+license:
+  name: Apache 2.0
+  url: https://www.apache.org/licenses/LICENSE-2.0.html
+version: 1.0.1

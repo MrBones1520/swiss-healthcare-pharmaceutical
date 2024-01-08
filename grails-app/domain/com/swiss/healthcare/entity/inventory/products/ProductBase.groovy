@@ -10,7 +10,6 @@ import org.grails.datastore.gorm.GormEntity
 @ToString(includes = ['name', 'description'], includeNames = true, includePackage = false)
 class ProductBase implements GormEntity<ProductBase> {
 
-
     String name
     String description
 
