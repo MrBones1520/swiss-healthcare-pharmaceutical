@@ -8,19 +8,14 @@ import org.grails.datastore.gorm.GormEntity
 import java.sql.Timestamp
 
 @Resource
-@EqualsAndHashCode(includes = ['name', 'description'])
-@ToString(
-        includes = ['name', 'description', 'enable'],
-        includeNames = true,
-        includePackage = false
-)
 class ProductStatus implements GormEntity<ProductStatus> {
 
     String name
     String description
     boolean enable = true
-
     Date dateCreated
+
+    static hasMany = [items:ProductItem]
 
     static constraints = {
         name unique: true

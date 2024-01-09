@@ -7,17 +7,14 @@ import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
 @Resource
-@ToString(
-        includes = ['folio', 'user', 'products'],
-        includeNames = true,
-        includePackage = false
-)
 class Sale implements GormEntity<Sale> {
 
   String folio
+  List<ProductItem> products
   User user
-
   Date dateCreated
+
+  static hasMany = [products:ProductItem]
 
   static constraints = {
     folio unique: true, blank: false
@@ -26,9 +23,8 @@ class Sale implements GormEntity<Sale> {
   static mapping = {
     id name: 'folio', generator: 'uuid'
     products fetch: 'join'
-    user fetch: 'join'
+    user fetch: 'select'
+    batchSize 20
   }
-
-  static hasMany = [products:ProductItem]
 
 }

@@ -1,6 +1,7 @@
 package com.swiss.healthcare.entity.auth
 
 import com.swiss.healthcare.entity.inventory.Sale
+import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.people.Person
 import grails.rest.Resource
 import groovy.transform.EqualsAndHashCode
@@ -17,9 +18,10 @@ class User implements GormEntity<User>{
     String password
     List<Person> person
     boolean enabled = true
-
     Date dateCreated
     Date lastUpdated
+
+    static hasMany = [items:ProductItem]
 
     static constraints = {
         email email:true, unique:true
