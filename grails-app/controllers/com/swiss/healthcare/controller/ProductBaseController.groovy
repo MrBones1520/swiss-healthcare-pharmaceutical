@@ -13,7 +13,11 @@ class ProductBaseController extends RestfulController<ProductBase> {
     }
 
     def index(){
-        [size: productBaseService.count(), products: productBaseService.findAll()]
+        [products: productBaseService.findAll()]
+    }
+
+    def show(int id){
+        [productBase: productBaseService.get(id)]
     }
 
 

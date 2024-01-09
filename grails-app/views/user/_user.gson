@@ -1,0 +1,15 @@
+model {
+    User user
+}
+
+json {
+    id user.ident()
+    email user.email
+    username user.username
+    password user.password
+    dateCreated user.dateCreated
+    lastUpdated user.lastUpdated
+    person {
+        id user.person.ident()
+    }
+}

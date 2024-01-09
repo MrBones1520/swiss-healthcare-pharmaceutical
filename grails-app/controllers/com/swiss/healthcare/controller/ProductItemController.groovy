@@ -13,7 +13,10 @@ class ProductItemController extends RestfulController<ProductItem>{
     }
 
     def index(){
-        [products: productItemService.findAll()]
+        [products: productItemService.findAll(),
+         stockIn: productItemService.listAllInStock(),
+         stockOut: productItemService.listAllOutStock(),
+         saleOut: productItemService.listAllOutSale()]
     }
 
 }

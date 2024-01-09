@@ -20,7 +20,10 @@ class UrlMappings{
         get "/persons/$id"(controller: 'person', action: "show")
         post "/persons"(controller: 'person', action: "save")
 
-        "/users"(resources: 'user')
+        get "/users"(controller: 'user', action: 'index')
+        get "/users/$id"(controller: 'user', action: 'show')
+        post "/users"(controller: 'user', action: 'save')
+        delete "/users/$id"(controller: 'user', action: 'delete')
 
         get "/sales"(controller: 'sale', action: 'index')
         get "/sales/$id"(controller: 'sale', action:  'show')

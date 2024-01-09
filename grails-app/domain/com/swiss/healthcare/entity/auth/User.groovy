@@ -1,27 +1,22 @@
 package com.swiss.healthcare.entity.auth
 
-import com.swiss.healthcare.entity.inventory.Sale
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.people.Person
-import grails.rest.Resource
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
-@Resource
-@EqualsAndHashCode(includes = ['username', 'email', 'enabled'])
-@ToString(includes = ['username', 'email'], includeNames = true, includePackage = false)
 class User implements GormEntity<User>{
 
     String email
     String username
     String password
-    List<Person> person
     boolean enabled = true
+    Person person
     Date dateCreated
     Date lastUpdated
 
     static hasMany = [items:ProductItem]
+
+    static belongsTo = [person: Person]
 
     static constraints = {
         email email:true, unique:true
@@ -31,13 +26,6 @@ class User implements GormEntity<User>{
 
     static mapping = {
         password column: 'password'
-        autowire true
-    }
-
-    static transients = ['springSecurityService']
-
-    List<Sale> getSales(){
-        Sale.findAll {user == this }
     }
 
     Set<SecurityRole> getAuthorities(){

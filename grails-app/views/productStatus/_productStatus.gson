@@ -5,5 +5,4 @@ model {
 json {
     name productStatus.name
     description productStatus.description
-    enabled productStatus.enable
 }

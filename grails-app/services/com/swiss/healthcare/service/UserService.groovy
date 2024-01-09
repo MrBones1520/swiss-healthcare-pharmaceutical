@@ -10,4 +10,6 @@ interface UserService {
 
     User get(Serializable id)
 
+    List<User> findAll()
+
 }

@@ -43,17 +43,24 @@ class BootStrap {
             printCube(user)
 
             log.info("Try create product status")
-            def active = productStatusService.save(new ProductStatus(name: 'ACTIVE', description: 'ACTIVE STATUS'))
-            def inventory = productStatusService.save(new ProductStatus(name: 'IN INVENTORY', description: 'MANAGER STATUS'))
-            printCube(active)
-            printCube(inventory)
+            def stockIn = productStatusService.save(ProductStatus.IN_STOCK)
+            def stockOut = productStatusService.save(ProductStatus.OUT_STOCK)
+            def saleOut = productStatusService.save(ProductStatus.OUT_SALE)
+            printCube(stockIn)
+            printCube(stockOut)
+            printCube(saleOut)
 
             log.info("Try create product base")
             def base = productBaseService.save(new ProductBase(name: 'coca cola', description: '600ml'))
             printCube(base)
 
             log.info("Try create product item")
-            def productItem = productItemService.save(new ProductItem(barcode: "000000000", status: productStatusService.get(1), descriptor: productBaseService.get(1)))
+            def productItem = productItemService.save(new ProductItem(
+                    barcode: "000000000",
+                    status: productStatusService.get(1),
+                    descriptor: productBaseService.get(1),
+                    user: userService.get(1))
+            )
             printCube(productItem)
 
             log.info("Try create sale")

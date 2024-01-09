@@ -7,9 +7,10 @@ import org.grails.datastore.gorm.GormEntity
 class ProductItem implements GormEntity<ProductItem>{
 
     String barcode
+    ProductBase descriptor
+    ProductStatus status
+    User user
     Date dateCreated
-
-    static hasOne = [descriptor:ProductBase, status:ProductStatus, user:User]
 
     static constraints = {
         barcode unique: true, size: 7..25

@@ -1,7 +1,5 @@
 package com.swiss.healthcare.service
 
-import com.swiss.healthcare.entity.auth.User
-import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import grails.gorm.services.Service
 

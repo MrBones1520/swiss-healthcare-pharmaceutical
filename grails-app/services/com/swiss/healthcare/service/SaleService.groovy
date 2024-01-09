@@ -8,8 +8,6 @@ interface SaleService {
 
     Sale save(Sale sale)
 
-    Sale get(Serializable id)
-
     List<Sale> findAll()
 
 }

@@ -1,0 +1,8 @@
+model {
+    List<User> users = []
+}
+
+json {
+    count users.size()
+    items g.render(users)
+}
