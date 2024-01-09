@@ -1,13 +1,7 @@
 package com.swiss.healthcare.entity.inventory.products
 
-import grails.rest.Resource
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
-import java.sql.Timestamp
-
-@Resource
 class ProductStatus implements GormEntity<ProductStatus> {
 
     String name

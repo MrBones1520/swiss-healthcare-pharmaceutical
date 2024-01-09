@@ -1,0 +1,10 @@
+model {
+    Sale sale
+}
+
+json {
+    folio sale.folio
+    count sale.products.size()
+    items g.render(sale.products)
+    dateCreated sale.dateCreated
+}

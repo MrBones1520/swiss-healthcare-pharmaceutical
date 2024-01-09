@@ -10,4 +10,6 @@ interface ProductItemService {
 
     ProductItem get(String barcode)
 
+    List<ProductItem> findAll()
+
 }

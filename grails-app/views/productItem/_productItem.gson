@@ -1,0 +1,9 @@
+model {
+    ProductItem productItem
+}
+
+json {
+    barcode productItem.ident()
+    dateCreated productItem.dateCreated
+    base tmpl.render(productItem.descriptor)
+}

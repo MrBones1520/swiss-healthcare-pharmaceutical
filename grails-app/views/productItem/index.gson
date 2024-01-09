@@ -1,0 +1,8 @@
+model{
+    List<ProductItem> products = []
+}
+
+json {
+    count products?.size() ?: 0
+    items tmpl.render(products)
+}

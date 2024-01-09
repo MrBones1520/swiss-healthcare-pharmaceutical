@@ -1,0 +1,8 @@
+model {
+    List<ProductStatus> products = []
+}
+
+json {
+    count products?.size() ?: 0
+    items g.render(products)
+}

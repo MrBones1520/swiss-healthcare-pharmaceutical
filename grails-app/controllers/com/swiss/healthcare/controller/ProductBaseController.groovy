@@ -1,4 +1,4 @@
-package com.swiss.healthcare.controller;
+package com.swiss.healthcare.controller
 
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.service.ProductBaseService

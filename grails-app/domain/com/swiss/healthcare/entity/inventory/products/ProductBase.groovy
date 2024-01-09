@@ -5,7 +5,6 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.grails.datastore.gorm.GormEntity
 
-@Resource
 class ProductBase implements GormEntity<ProductBase> {
 
     String name

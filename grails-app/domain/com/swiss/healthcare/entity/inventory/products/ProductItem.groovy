@@ -4,7 +4,6 @@ import com.swiss.healthcare.entity.auth.User
 import grails.rest.Resource
 import org.grails.datastore.gorm.GormEntity
 
-@Resource
 class ProductItem implements GormEntity<ProductItem>{
 
     String barcode

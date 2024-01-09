@@ -10,6 +10,6 @@ interface SaleService {
 
     Sale get(Serializable id)
 
-    long count()
+    List<Sale> findAll()
 
 }

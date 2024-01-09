@@ -12,4 +12,6 @@ interface ProductStatusService {
 
     ProductStatus save(ProductStatus arg)
 
+    List<ProductStatus> findAll()
+
 }
