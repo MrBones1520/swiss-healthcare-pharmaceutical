@@ -1,0 +1,10 @@
+model {
+    ProductBase productBase
+}
+
+json {
+    id          productBase.ident()
+    description productBase.description
+    dateCreated productBase.dateCreated
+    lastUpdated productBase.lastUpdated
+}

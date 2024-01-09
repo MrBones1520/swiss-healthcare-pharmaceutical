@@ -1,0 +1,9 @@
+model {
+    Long size
+    List<ProductBase> products = []
+}
+
+json {
+    count size
+    items g.render(products)
+}
