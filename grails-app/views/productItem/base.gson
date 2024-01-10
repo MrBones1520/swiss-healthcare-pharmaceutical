@@ -1,8 +1,0 @@
-model {
-    List<ProductBase> listProductBase = []
-}
-
-json {
-    count listProductBase?.size() ?: 0
-    items g.render(listProductBase, [excludes: ['base']])
-}

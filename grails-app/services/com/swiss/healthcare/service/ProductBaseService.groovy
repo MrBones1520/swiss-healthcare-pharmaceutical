@@ -13,7 +13,4 @@ interface ProductBaseService {
 
     List<ProductBase> findAll()
 
-    @Where({id == id0})
-    List<ProductBase> listAll(Serializable id0)
-
 }

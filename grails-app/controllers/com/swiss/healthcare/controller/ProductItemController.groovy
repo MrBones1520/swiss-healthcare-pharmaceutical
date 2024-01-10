@@ -1,8 +1,6 @@
 package com.swiss.healthcare.controller
 
-import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
-import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductBaseService
 import com.swiss.healthcare.service.ProductItemService
 import grails.rest.RestfulController
@@ -20,10 +18,12 @@ class ProductItemController extends RestfulController<ProductItem>{
     }
 
     def index(){
-        [products:  productItemService.findAll(),
-         stockInCount:   productItemService.listAllInStock().size(),
-         stockOutCount:  productItemService.listAllOutStock().size(),
-         saleOutCount:   productItemService.listAllOutSale().size()]
+        [
+            products:  productItemService.findAll(),
+            stockInCount:   productItemService.listAllInStock().size(),
+            stockOutCount:  productItemService.listAllOutStock().size(),
+            saleOutCount:   productItemService.listAllOutSale().size()
+        ]
     }
 
     def status(){
@@ -41,9 +41,14 @@ class ProductItemController extends RestfulController<ProductItem>{
     }
 
     def base(){
-        def id0 = params['id'].toString().toLong()
+        def productBaseId = params['id'].toString().toLong()
+        render([view: 'index', model: [
+                products: ProductItem.where { base.id == productBaseId }.list() ,
+                stockInCount:   productItemService.listAllInStock().size(),
+                stockOutCount:  productItemService.listAllOutStock().size(),
+                saleOutCount:   productItemService.listAllOutSale().size()
+        ]])
 
-        [listProductBase: ProductItem.where { base.id == id0 }.list()]
     }
 
 }
