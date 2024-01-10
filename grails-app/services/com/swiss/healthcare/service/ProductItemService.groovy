@@ -23,5 +23,4 @@ interface ProductItemService {
     @Where({status == ProductStatus.OUT_SALE})
     List<ProductItem> listAllOutSale()
 
-
 }
