@@ -6,6 +6,6 @@ model{
 }
 
 json {
-    total g.render([products.size(), stockIn, stockOut, saleOut]){ value it }
+    total g.render([stockIn, stockOut, saleOut]){ value it }
     items g.render(products)
 }
