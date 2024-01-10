@@ -14,13 +14,13 @@ interface ProductItemService {
 
     List<ProductItem> findAll()
 
-    @Where({status == ProductStatus.IN_STOCK})
+    @Where({status.id == ProductStatus.IN_STOCK.id})
     List<ProductItem> listAllInStock()
 
-    @Where({status == ProductStatus.OUT_STOCK})
+    @Where({status.id == ProductStatus.OUT_STOCK.id})
     List<ProductItem> listAllOutStock()
 
-    @Where({status == ProductStatus.OUT_SALE})
+    @Where({status.id == ProductStatus.OUT_SALE.id})
     List<ProductItem> listAllOutSale()
 
 }

@@ -3,10 +3,11 @@ model {
 }
 
 json {
-    barcode productItem.ident()
-    base g.render(productItem.base, [excludes:['status']]){
+    barcode productItem.barcode
+    base g.render(productItem.status, [excludes:['status']]){
         status {
-            id productItem.base.ident()
+            id productItem.status.id
+            name productItem.status.name
         }
     }
     assigned productItem.assigned
