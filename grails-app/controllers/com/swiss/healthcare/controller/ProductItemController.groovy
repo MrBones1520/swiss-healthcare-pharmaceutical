@@ -2,6 +2,7 @@ package com.swiss.healthcare.controller
 
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
+import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductBaseService
 import com.swiss.healthcare.service.ProductItemService
 import grails.rest.RestfulController
