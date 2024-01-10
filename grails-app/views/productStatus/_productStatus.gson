@@ -3,6 +3,7 @@ model {
 }
 
 json {
-    name productStatus.name
+    id          productStatus.ident()
+    name        productStatus.name
     description productStatus.description
 }

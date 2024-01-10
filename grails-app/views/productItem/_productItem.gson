@@ -4,7 +4,11 @@ model {
 
 json {
     barcode productItem.ident()
+    base g.render(productItem.base, [excludes:['status']]){
+        status {
+            id productItem.base.ident()
+        }
+    }
+    assigned productItem.assigned
     dateCreated productItem.dateCreated
-    base g.render(productItem.descriptor)
-    status g.render(productItem.status)
 }

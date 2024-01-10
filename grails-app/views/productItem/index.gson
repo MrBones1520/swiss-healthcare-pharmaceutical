@@ -1,25 +1,11 @@
 model{
     List<ProductItem> products = []
-    List<ProductItem> stockIn = []
-    List<ProductItem> stockOut = []
-    List<ProductItem> saleOut = []
+    int stockIn = 0
+    int stockOut = 0
+    int saleOut = 0
 }
 
 json {
-    if (!products.isEmpty()) all {
-            count products.size()
-            items g.render(products)
-        }
-    if (!stockIn.isEmpty()) stockIn {
-            count stockIn.size()
-            items g.render(stockIn)
-        }
-    if (!stockOut.isEmpty()) stockOut {
-            count stockOut.size()
-            items g.render(stockOut)
-        }
-    if (!saleOut.isEmpty()) saleOut {
-            count saleOut.size()
-            items g.render(saleOut)
-        }
+    total g.render([products.size(), stockIn, stockOut, saleOut]){ value it }
+    items g.render(products)
 }

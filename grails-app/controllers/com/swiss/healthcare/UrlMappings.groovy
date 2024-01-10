@@ -11,10 +11,13 @@ class UrlMappings{
         get "/products/base"(controller: 'productBase', action: 'index')
         get "/products/base/$id"(controller: 'productBase', action: 'show')
         post "/products/base"(controller: 'productBase', action: 'save')
+        put "/products/base/$id"(controller: 'productBase', action: 'update')
 
         get "/products/item"(controller: 'productItem', action: 'index')
         get "/products/item/$id"(controller: 'productItem', action: 'show')
+        get "/products/item/status/$status"(controller: 'productItem', action: 'status')
         post "/products/item"(controller: 'productItem', action: 'save')
+        put "/products/item/$id"(controller: 'productItem', action: 'update')
 
         get "/persons"(controller: 'person', action: "index")
         get "/persons/$id"(controller: 'person', action: "show")

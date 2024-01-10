@@ -1,25 +1,23 @@
 package com.swiss.healthcare.entity.inventory.products
 
-import com.swiss.healthcare.entity.auth.User
-import grails.rest.Resource
 import org.grails.datastore.gorm.GormEntity
 
 class ProductItem implements GormEntity<ProductItem>{
 
     String barcode
-    ProductBase descriptor
+    ProductBase base
     ProductStatus status
-    User user
+    String assigned
     Date dateCreated
 
     static constraints = {
         barcode unique: true, size: 7..25
-        user nullable: true
+        assigned nullable: true
     }
 
     static mapping = {
         id name: 'barcode', generator: 'assigned'
-        descriptor updateable: false, lazy: false
+        base updateable: true, lazy: false
     }
 
 }
