@@ -9,6 +9,7 @@ class ProductItem implements GormEntity<ProductItem>{
     ProductStatus status
     String assigned
     Date dateCreated
+    Date lastUpdated
 
     static constraints = {
         barcode unique: true, size: 7..25

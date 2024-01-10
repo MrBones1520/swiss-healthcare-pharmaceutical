@@ -11,4 +11,5 @@ json {
     }
     assigned productItem.assigned
     dateCreated productItem.dateCreated
+    lastUpdated productItem.dateCreated
 }
