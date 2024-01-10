@@ -3,7 +3,7 @@ model {
 }
 
 json {
-    id          productBase.ident()
+    id          productBase.id
     name        productBase.name
     description productBase.description
     dateCreated productBase.dateCreated
