@@ -1,11 +1,9 @@
 package com.swiss.healthcare.entity.auth
 
 import grails.gorm.DetachedCriteria
-import groovy.transform.ToString
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.grails.datastore.gorm.GormEntity
 
-@ToString(cache=true, includeNames=true, includePackage=false)
 class UserSecurityRole implements GormEntity<UserSecurityRole>, Serializable{
 
     private static final long serialVersionUID = 23234234L

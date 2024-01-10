@@ -22,7 +22,6 @@ class UrlMappings{
 
         get "/persons"(controller: 'person', action: "index")
         get "/persons/$id"(controller: 'person', action: "show")
-        post "/persons"(controller: 'person', action: "save")
 
         get "/users"(controller: 'user', action: 'index')
         get "/users/$id"(controller: 'user', action: 'show')
