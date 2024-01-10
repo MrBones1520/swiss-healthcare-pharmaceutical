@@ -1,7 +1,7 @@
 package com.swiss.healthcare.controller
 
 import com.swiss.healthcare.entity.inventory.products.ProductItem
-import com.swiss.healthcare.service.ProductBaseService
+import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductItemService
 import grails.rest.RestfulController
 import groovy.util.logging.Log
@@ -11,15 +11,13 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     ProductItemService productItemService
 
-    ProductBaseService productBaseService
-
     ProductItemController() {
         super(ProductItem.class)
     }
 
     def index(){
         [
-            products:  productItemService.findAll(),
+            products:       productItemService.findAll(),
             stockInCount:   productItemService.listAllInStock().size(),
             stockOutCount:  productItemService.listAllOutStock().size(),
             saleOutCount:   productItemService.listAllOutSale().size()
@@ -42,11 +40,13 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     def base(){
         def productBaseId = params['id'].toString().toLong()
+        def all = ProductItem.where { base.id == productBaseId }.list()
+
         render([view: 'index', model: [
-                products: ProductItem.where { base.id == productBaseId }.list() ,
-                stockInCount:   productItemService.listAllInStock().size(),
-                stockOutCount:  productItemService.listAllOutStock().size(),
-                saleOutCount:   productItemService.listAllOutSale().size()
+                products:       all,
+                stockInCount:   all.findAll {it.status.id == ProductStatus.IN_STOCK.id }.size(),
+                stockOutCount:  all.findAll {it.status.id == ProductStatus.OUT_STOCK.id }.size(),
+                saleOutCount:   all.findAll {it.status.id == ProductStatus.OUT_SALE.id }.size()
         ]])
 
     }
