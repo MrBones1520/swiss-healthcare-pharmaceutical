@@ -1,5 +1,6 @@
 package com.swiss.healthcare.controller
 
+import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductItemService
@@ -13,6 +14,37 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     ProductItemController() {
         super(ProductItem.class)
+    }
+
+    def save(){
+        def barcodes = request.JSON['barcodes'] as List<String>
+        def baseItemBody = request.JSON as HashMap<String, Object>
+        baseItemBody.remove('barcodes')
+
+        def items = barcodes.collect {
+            def copy = baseItemBody.clone()
+            copy['barcode'] = it
+            def newItem = copy as ProductItem
+            productItemService.save(newItem)
+        }
+
+        [products: items]
+    }
+
+    def update(){
+        def barcodes = request.JSON['barcodes'] as List<String>
+        def baseItemBody = request.JSON as HashMap<String, Object>
+        baseItemBody.remove('barcodes')
+
+        def items = barcodes.collect {
+            def copy = ProductItem.get(it)
+            copy.base = ProductBase.get(baseItemBody['base']['id'])
+            copy.status = ProductStatus.get(baseItemBody['status']['id'])
+            copy.assigned = baseItemBody['assigned']
+            productItemService.save(copy)
+        }
+
+        render(view: 'save', model: [products: items])
     }
 
     def index(){
