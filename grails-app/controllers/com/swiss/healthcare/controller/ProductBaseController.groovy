@@ -19,6 +19,4 @@ class ProductBaseController extends RestfulController<ProductBase> {
     def show(int id){
         [productBase: productBaseService.get(id)]
     }
-
-
 }

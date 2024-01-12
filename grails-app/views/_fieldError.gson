@@ -1,0 +1,10 @@
+import org.springframework.validation.FieldError
+
+model {
+    FieldError error
+}
+
+json {
+    field error.field
+    message error.defaultMessage
+}

@@ -1,0 +1,8 @@
+model {
+    ProductItem item
+}
+
+json {
+    barcode item?.barcode
+    errors tmpl.'/fieldError'("error", item.errors.fieldErrors)
+}

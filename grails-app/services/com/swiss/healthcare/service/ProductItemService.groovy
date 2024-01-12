@@ -12,6 +12,7 @@ interface ProductItemService {
 
     ProductItem get(String barcode)
 
+    @Where({enabled == true})
     List<ProductItem> findAll()
 
     @Where({status.id == ProductStatus.IN_STOCK.id})

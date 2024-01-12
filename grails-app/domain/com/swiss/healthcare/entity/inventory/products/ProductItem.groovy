@@ -11,6 +11,8 @@ class ProductItem implements GormEntity<ProductItem>{
     Date dateCreated
     Date lastUpdated
 
+    boolean enabled = true
+
     static constraints = {
         barcode unique: true, size: 7..25
         assigned nullable: true
@@ -19,6 +21,13 @@ class ProductItem implements GormEntity<ProductItem>{
     static mapping = {
         id name: 'barcode', generator: 'assigned'
         base updateable: true, lazy: false
+        lastUpdated updateable: true
+        dateCreated updatable: false
+    }
+
+    def disabled(){
+        enabled = false
+        this
     }
 
 }

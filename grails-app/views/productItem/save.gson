@@ -1,5 +1,9 @@
 model {
-    List<ProductItem> products = []
+    List<ProductItem> saved = []
+    List<ProductItem> errors = []
 }
 
-json g.render(products)
+json {
+    saved g.render(saved)
+    failed tmpl.productItemWithErrors("item", errors)
+}

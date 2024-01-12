@@ -11,6 +11,7 @@ interface ProductBaseService {
 
     ProductBase get(Serializable id)
 
+    @Where({enabled == true})
     List<ProductBase> findAll()
 
 }

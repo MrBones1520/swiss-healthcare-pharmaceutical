@@ -4,8 +4,10 @@ import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductItemService
+import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import groovy.util.logging.Log
+import org.springframework.validation.FieldError
 
 @Log
 class ProductItemController extends RestfulController<ProductItem>{
@@ -25,10 +27,26 @@ class ProductItemController extends RestfulController<ProductItem>{
             def copy = baseItemBody.clone()
             copy['barcode'] = it
             def newItem = copy as ProductItem
-            productItemService.save(newItem)
-        }
 
-        [products: items]
+            if(!newItem.validate())
+                return newItem
+            if(ProductItem.exists(it)){
+                newItem.errors.rejectValue("barcode", "204", "Already exist")
+                return newItem
+            }
+            if(!ProductBase.exists(newItem.base.ident()))
+                newItem.errors.rejectValue("base.id", "1000", "Base id not found")
+            if(!ProductStatus.exists(newItem.status.ident()))
+                newItem.errors.rejectValue("status.id", "1000", "Status id not found")
+
+            return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
+        }.groupBy { it.dateCreated != null  }
+
+        render(
+            view: 'save',
+            status: items ? '200' : '204',
+            model: [saved: items.get(true), errors: items.get(false)]
+        )
     }
 
     def update(){
@@ -37,14 +55,35 @@ class ProductItemController extends RestfulController<ProductItem>{
         baseItemBody.remove('barcodes')
 
         def items = barcodes.collect {
-            def copy = ProductItem.get(it)
-            copy.base = ProductBase.get(baseItemBody['base']['id'])
-            copy.status = ProductStatus.get(baseItemBody['status']['id'])
-            copy.assigned = baseItemBody['assigned']
-            productItemService.save(copy)
-        }
+            def originalItem = productItemService.get(it)
+            def newItem = baseItemBody.clone() as ProductItem
 
-        render(view: 'save', model: [products: items])
+            if(!originalItem) {
+                def notFound = new ProductItem(barcode: it)
+                notFound.errors.rejectValue("barcode", "4000", "Product Item Not found")
+                return notFound
+            }
+
+            originalItem.setAssigned(newItem.getAssigned())
+
+            if(!ProductBase.exists(newItem.base.ident()))
+                originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
+            else
+                originalItem.setBase(ProductBase.get(newItem.base.ident()))
+
+            if(!ProductStatus.exists(newItem.status.ident()))
+                originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
+            else
+                originalItem.setStatus(ProductStatus.get(newItem.status.ident()))
+
+            return originalItem.validate() ? productItemService.save(originalItem) : productItemService.get(it)
+        }.groupBy { it.validate() }
+
+        render(
+                view: 'save',
+                status: items ? '200' : '204',
+                model: [saved: items.get(true), errors: items.get(false)]
+        )
     }
 
     def index(){
@@ -74,13 +113,15 @@ class ProductItemController extends RestfulController<ProductItem>{
         def productBaseId = params['id'].toString().toLong()
         def all = ProductItem.where { base.id == productBaseId }.list()
 
-        render([view: 'index', model: [
-                products:       all,
-                stockInCount:   all.findAll {it.status.id == ProductStatus.IN_STOCK.id }.size(),
-                stockOutCount:  all.findAll {it.status.id == ProductStatus.OUT_STOCK.id }.size(),
-                saleOutCount:   all.findAll {it.status.id == ProductStatus.OUT_SALE.id }.size()
-        ]])
-
+        [
+                view: 'index',
+                model: [
+                    products:       all,
+                    stockInCount:   all.findAll {it.status.id == ProductStatus.IN_STOCK.id }.size(),
+                    stockOutCount:  all.findAll {it.status.id == ProductStatus.OUT_STOCK.id }.size(),
+                    saleOutCount:   all.findAll {it.status.id == ProductStatus.OUT_SALE.id }.size()
+                ]
+        ]
     }
 
 }

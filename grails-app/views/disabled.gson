@@ -1,0 +1,9 @@
+model {
+    String msg
+    boolean done
+}
+
+json {
+    description msg
+    action done
+}
