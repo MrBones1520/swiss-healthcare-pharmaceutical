@@ -22,9 +22,7 @@ class ProductItem implements GormEntity<ProductItem>{
     static mapping = {
         id name: 'barcode', generator: 'assigned'
         base updateable: true, lazy: false
-        dateCreated updateable: false, insertable: true
-        lastUpdated updateable: true, insertable: true
-        autoTimestamp true
+        cache false
     }
 
     def disabled(){

@@ -1,5 +1,6 @@
 package com.swiss.healthcare.service
 
+import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import grails.gorm.services.Service
@@ -8,9 +9,11 @@ import grails.gorm.services.Where
 @Service(ProductItem)
 interface ProductItemService {
 
-    ProductItem save(ProductItem productItem, Map map)
+    ProductItem save(ProductItem productItem)
 
     ProductItem get(String barcode)
+
+    ProductItem update(String id, String assigned, ProductBase base, ProductStatus status)
 
     @Where({enabled == true})
     List<ProductItem> findAll()

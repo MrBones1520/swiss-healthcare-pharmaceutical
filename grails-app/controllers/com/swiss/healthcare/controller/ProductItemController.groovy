@@ -7,7 +7,6 @@ import com.swiss.healthcare.service.ProductItemService
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import groovy.util.logging.Log
-import org.springframework.validation.FieldError
 
 @Log
 class ProductItemController extends RestfulController<ProductItem>{
@@ -18,6 +17,7 @@ class ProductItemController extends RestfulController<ProductItem>{
         super(ProductItem.class)
     }
 
+    @Transactional
     def save(){
         def barcodes = request.JSON['barcodes'] as List<String>
         def baseItemBody = request.JSON as HashMap<String, Object>
@@ -39,7 +39,7 @@ class ProductItemController extends RestfulController<ProductItem>{
             if(!ProductStatus.exists(newItem.status.ident()))
                 newItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
-            return newItem.errors.hasErrors() ? newItem : productItemService.save(product: newItem)
+            return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
         }.groupBy { it.dateCreated != null  }
 
         render(
@@ -65,20 +65,20 @@ class ProductItemController extends RestfulController<ProductItem>{
                 return notFound
             }
 
-            originalItem.setAssigned(newItem.assigned)
-
-            if(!ProductBase.exists(newItem.base.ident()))
-                originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
-            else
+            if(ProductBase.exists(newItem.base.ident()))
                 originalItem.base = ProductBase.get(newItem.base.ident())
+            else
+                originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
 
             if(!ProductStatus.exists(newItem.status.ident()))
-                originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
-            else
                 originalItem.status = ProductStatus.get(newItem.status.ident())
+            else
+                originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
-            return originalItem.validate() ? productItemService.save(originalItem, [flush: true]) : productItemService.get(it)
-        }.groupBy { it.validate() }
+            return originalItem.validate() ?
+                    productItemService.update(it, newItem.assigned, newItem.base, newItem.status) :
+                    productItemService.get(it)
+        }.groupBy {it.isDirty()}
 
         render(
                 view: 'save',
