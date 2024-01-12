@@ -3,6 +3,7 @@ package com.swiss.healthcare
 class UrlMappings{
     static mappings = {
         "/"(controller: 'application', action:'index')
+        post "/login"(controller: 'login', action: 'login')
 
         get     "/products/status"(controller: 'productStatus', action: 'index')
         get     "/products/status/$id"(controller: 'productStatus', action: 'show')

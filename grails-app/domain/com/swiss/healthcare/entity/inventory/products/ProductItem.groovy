@@ -2,6 +2,7 @@ package com.swiss.healthcare.entity.inventory.products
 
 import org.grails.datastore.gorm.GormEntity
 
+
 class ProductItem implements GormEntity<ProductItem>{
 
     String barcode
@@ -21,8 +22,9 @@ class ProductItem implements GormEntity<ProductItem>{
     static mapping = {
         id name: 'barcode', generator: 'assigned'
         base updateable: true, lazy: false
-        lastUpdated updateable: true
-        dateCreated updatable: false
+        dateCreated updateable: false, insertable: true
+        lastUpdated updateable: true, insertable: true
+        autoTimestamp true
     }
 
     def disabled(){

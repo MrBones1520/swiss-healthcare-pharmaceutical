@@ -39,7 +39,7 @@ class ProductItemController extends RestfulController<ProductItem>{
             if(!ProductStatus.exists(newItem.status.ident()))
                 newItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
-            return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
+            return newItem.errors.hasErrors() ? newItem : productItemService.save(product: newItem)
         }.groupBy { it.dateCreated != null  }
 
         render(
@@ -49,6 +49,7 @@ class ProductItemController extends RestfulController<ProductItem>{
         )
     }
 
+    @Transactional
     def update(){
         def barcodes = request.JSON['barcodes'] as List<String>
         def baseItemBody = request.JSON as HashMap<String, Object>
@@ -64,19 +65,19 @@ class ProductItemController extends RestfulController<ProductItem>{
                 return notFound
             }
 
-            originalItem.setAssigned(newItem.getAssigned())
+            originalItem.setAssigned(newItem.assigned)
 
             if(!ProductBase.exists(newItem.base.ident()))
                 originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
             else
-                originalItem.setBase(ProductBase.get(newItem.base.ident()))
+                originalItem.base = ProductBase.get(newItem.base.ident())
 
             if(!ProductStatus.exists(newItem.status.ident()))
                 originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
             else
-                originalItem.setStatus(ProductStatus.get(newItem.status.ident()))
+                originalItem.status = ProductStatus.get(newItem.status.ident())
 
-            return originalItem.validate() ? productItemService.save(originalItem) : productItemService.get(it)
+            return originalItem.validate() ? productItemService.save(originalItem, [flush: true]) : productItemService.get(it)
         }.groupBy { it.validate() }
 
         render(
@@ -86,9 +87,10 @@ class ProductItemController extends RestfulController<ProductItem>{
         )
     }
 
+    @Transactional(readOnly = true)
     def index(){
         [
-            products:       productItemService.findAll(),
+            products:       ProductItem.findAll([sort: 'lastUpdated', order: 'desc']),
             stockInCount:   productItemService.listAllInStock().size(),
             stockOutCount:  productItemService.listAllOutStock().size(),
             saleOutCount:   productItemService.listAllOutSale().size()

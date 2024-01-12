@@ -12,4 +12,6 @@ interface UserService {
 
     List<User> findAll()
 
+    User findByUsernameAndPassword(String username, String password)
+
 }

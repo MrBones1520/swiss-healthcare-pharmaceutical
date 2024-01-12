@@ -8,7 +8,7 @@ import grails.gorm.services.Where
 @Service(ProductItem)
 interface ProductItemService {
 
-    ProductItem save(ProductItem productItem)
+    ProductItem save(ProductItem productItem, Map map)
 
     ProductItem get(String barcode)
 
