@@ -40,7 +40,7 @@ class ProductItemController extends RestfulController<ProductItem>{
                 newItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
             return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
-        }.groupBy { it.dateCreated != null  }
+        }.groupBy { it.isAttached()  }
 
         render(
             view: 'save',
