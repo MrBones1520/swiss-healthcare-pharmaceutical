@@ -51,6 +51,9 @@ grails:
   views:
     default:
       codec: html
+    json:
+      generator:
+        dateFormat: "yyyy-MM-dd HH:mm:ss"
   mime:
     disable:
       accept:
