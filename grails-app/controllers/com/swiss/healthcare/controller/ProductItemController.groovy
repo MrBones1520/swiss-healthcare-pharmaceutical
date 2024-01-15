@@ -5,6 +5,7 @@ import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductBaseService
 import com.swiss.healthcare.service.ProductItemService
+import com.swiss.healthcare.service.ProductStatusService
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import groovy.util.logging.Log
@@ -15,6 +16,8 @@ class ProductItemController extends RestfulController<ProductItem>{
     ProductItemService productItemService
 
     ProductBaseService productBaseService
+
+    ProductStatusService productStatusService
 
     ProductItemController() {
         super(ProductItem.class)
@@ -101,17 +104,12 @@ class ProductItemController extends RestfulController<ProductItem>{
     }
 
     def status(){
-        def status0 = params.get('status').toString()
-        def values0 = new ArrayList<ProductItem>()
+        def status0 = params.get('status').toString().toInteger()
 
-        if('stockIn'.equalsIgnoreCase(status0))
-            values0 = productItemService.listAllInStock()
-        if('stockOut'.equalsIgnoreCase(status0))
-            values0 = productItemService.listAllOutStock()
-        if('saleOut'.equalsIgnoreCase(status0))
-            values0 = productItemService.listAllOutSale()
+        if(!ProductStatus.exists(status0))
+            return render(view: '/error')
 
-        [statusName: status0, values: values0]
+        [values: productItemService.findAllByProductStatus(status0)]
     }
 
     def base(){

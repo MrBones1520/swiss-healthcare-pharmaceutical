@@ -26,6 +26,9 @@ abstract class ProductItemService {
     @Where({status.id == ProductStatus.OUT_SALE.id})
     abstract List<ProductItem> listAllOutSale()
 
+    @Where({status.id == id})
+    abstract List<ProductItem> findAllByProductStatus(Serializable id)
+
     @Where({base.id == productBase.id})
     abstract List<ProductItem> findAllByProductBase(ProductBase productBase)
 

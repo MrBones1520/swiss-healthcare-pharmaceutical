@@ -1,9 +1,7 @@
 model{
-    String statusName
     List<ProductItem> values = []
 }
 
 json {
-    status statusName
     items g.render(values)
 }
