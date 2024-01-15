@@ -20,9 +20,8 @@ class AuditoryController implements Controller {
             notFounds = notFounds.findAll {  !barcodes.contains(it.barcode)}
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
-                def filterBaseId = {ProductItem it -> it.base.id == baseId}
-                items = items.findAll(filterBaseId)
-                notFounds = notFounds.findAll(filterBaseId)
+                items = items.findAll {ProductItem it -> it.base.id == baseId}
+                notFounds = notFounds.findAll {ProductItem it -> it.base.id == baseId && it.status.id == ProductStatus.IN_STOCK.id}
             }
 
         }

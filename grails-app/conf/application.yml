@@ -53,7 +53,7 @@ grails:
       codec: html
     json:
       generator:
-        dateFormat: "yyyy-MM-dd HH:mm:ss"
+        dateFormat: "yyyy-MM-dd hh:mm:ss XXX"
   mime:
     disable:
       accept:
@@ -87,3 +87,5 @@ hibernate:
     queries: false
     use_second_level_cache: false
     use_query_cache: false
+  jdbc:
+    time_zone: "America/Mexico_City"

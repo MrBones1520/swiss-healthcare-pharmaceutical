@@ -24,7 +24,7 @@ class BootStrap {
     ProductItemService productItemService
 
     def init = { servletContext ->
-        TimeZone.setDefault(TimeZone.getTimeZone("America/Mexico_City"))
+        //TimeZone.setDefault(TimeZone.getTimeZone("America/Chihuahua"))
         defaultStatus()
 
         if(Environment.getCurrentEnvironment() != Environment.PRODUCTION)
