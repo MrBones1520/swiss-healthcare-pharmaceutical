@@ -28,25 +28,4 @@ class User implements GormEntity<User>{
         password column: 'password'
     }
 
-    Set<SecurityRole> getAuthorities(){
-        UserSecurityRole.findAllByUser(this) as List<UserSecurityRole>*.securityRole as Set<SecurityRole>
-    }
-
-    def beforeInsert(){
-        encodePassword()
-    }
-
-    def beforeUpdate(){
-        if(isDirty('password'))
-            encodePassword()
-    }
-
-    boolean emptyRole(){
-        getAuthorities()?.isEmpty()
-    }
-
-    protected void encodePassword(){
-        password
-    }
-
 }

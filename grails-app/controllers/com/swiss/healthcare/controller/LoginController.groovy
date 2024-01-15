@@ -7,15 +7,19 @@ class LoginController implements Controller {
 
     UserService userService
 
-    def login(){
-        def username = request.getJSON()['username']
-        def password = request.getJSON()['password']
-        def user = userService.findByUsernameAndPassword(username, password)
+    def login() {
+        def username0 = request.getJSON()['username']
+        def password0 = request.getJSON()['password']
+        def user = userService.findByUsernameAndPassword(username0, password0)
 
-
-        render('status': user ? '100' : '401', contentType: "application/json") {
-            accesed(message: user ? 'Access done' : 'Access denied', access: user.asBoolean())
-        }
+        render(
+                view:   user ? '/accessSuccessful' : '/accessRejection',
+                status: user ? '226' : '401',
+                model: [
+                        msg         : user ? 'Access done' : 'Access denied',
+                        statusAccess: false
+                ]
+        )
     }
 
 }
