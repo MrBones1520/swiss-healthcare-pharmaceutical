@@ -21,6 +21,7 @@ class UrlMappings{
         get     "/products/item/$id"(controller: 'productItem', action: 'show')
         get     "/products/item/base/$id"(controller: 'productItem', action: 'base')
         get     "/products/item/status/$status"(controller: 'productItem', action: 'status')
+        get     "/products/item/search"(controller: 'productItem', action: 'search')
         get     "/products/item/export"(controller: 'productItem', action: 'export')
         post    "/products/item"(controller: 'productItem', action: 'save')
         put     "/products/item"(controller: 'productItem', action: 'update')
