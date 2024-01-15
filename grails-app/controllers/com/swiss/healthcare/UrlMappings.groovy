@@ -3,6 +3,7 @@ package com.swiss.healthcare
 class UrlMappings{
     static mappings = {
         "/"(controller: 'application', action:'index')
+
         post "/login"(controller: 'login', action: 'login')
 
         get     "/products/auditory"(controller: 'auditory', action: 'index')
@@ -26,16 +27,9 @@ class UrlMappings{
         post    "/products/item"(controller: 'productItem', action: 'save')
         put     "/products/item"(controller: 'productItem', action: 'update')
 
-        get     "/persons"(controller: 'person', action: "index")
-        get     "/persons/$id"(controller: 'person', action: "show")
-
-        get     "/users"(controller: 'user', action: 'index')
-        get     "/users/$id"(controller: 'user', action: 'show')
-        post    "/users"(controller: 'user', action: 'save')
-
-        get     "/sales"(controller: 'sale', action: 'index')
-        get     "/sales/$id"(controller: 'sale', action:  'show')
-        post    "/sales"(controller: 'sale', action: 'save')
+        "/persons"(resources: 'person', includes: ['index', 'show'])
+        "/users"(resources: 'user', includes: ['index', 'show', 'save'])
+        "/sales"(resources: 'sale', includes: ['index', 'show', 'save'])
 
         "500"(view:'/error')
         "404"(view:'/notFound')

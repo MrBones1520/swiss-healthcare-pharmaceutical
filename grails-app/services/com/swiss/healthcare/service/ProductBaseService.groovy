@@ -14,4 +14,6 @@ interface ProductBaseService {
     @Where({enabled == true})
     List<ProductBase> findAll()
 
+    int count()
+
 }
