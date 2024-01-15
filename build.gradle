@@ -56,8 +56,8 @@ dependencies {
     testImplementation("org.grails:grails-gorm-testing-support")
     testImplementation("org.grails:views-json-testing-support")
     testImplementation("org.spockframework:spock-core")
-    testImplementation("org.testcontainers:spock")
-    testImplementation("org.testcontainers:testcontainers")
+    //testImplementation("org.testcontainers:spock")
+    //testImplementation("org.testcontainers:testcontainers")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
