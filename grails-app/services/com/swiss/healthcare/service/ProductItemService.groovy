@@ -17,20 +17,11 @@ abstract class ProductItemService {
     @Where({enabled == true})
     abstract List<ProductItem> findAll()
 
-    @Where({status.id == ProductStatus.IN_STOCK.id})
-    abstract List<ProductItem> listAllInStock()
-
-    @Where({status.id == ProductStatus.OUT_STOCK.id})
-    abstract List<ProductItem> listAllOutStock()
-
-    @Where({status.id == ProductStatus.OUT_SALE.id})
-    abstract List<ProductItem> listAllOutSale()
-
     @Where({status.id == id})
     abstract List<ProductItem> findAllByProductStatus(Serializable id)
 
-    @Where({base.id == productBase.id})
-    abstract List<ProductItem> findAllByProductBase(ProductBase productBase)
+    @Where({base.id == id})
+    abstract List<ProductItem> findAllByProductBase(Serializable id)
 
     @Where({status.id == productStatus.id})
     abstract int countByProductStatus(ProductStatus productStatus)

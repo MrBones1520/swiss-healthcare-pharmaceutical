@@ -6,6 +6,7 @@ import com.swiss.healthcare.service.ProductItemService
 import grails.artefact.Controller
 import grails.gorm.transactions.Transactional
 
+@Transactional(readOnly = true)
 class AuditoryController implements Controller {
 
     ProductItemService productItemService
@@ -37,7 +38,6 @@ class AuditoryController implements Controller {
         ]
     }
 
-    @Transactional(readOnly = true)
     def search(){
         def value = params?.value
         render(

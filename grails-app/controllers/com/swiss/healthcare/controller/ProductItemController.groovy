@@ -15,10 +15,6 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     ProductItemService productItemService
 
-    ProductBaseService productBaseService
-
-    ProductStatusService productStatusService
-
     ProductItemController() {
         super(ProductItem.class)
     }
@@ -103,6 +99,7 @@ class ProductItemController extends RestfulController<ProductItem>{
         ]
     }
 
+    @Transactional(readOnly = true)
     def status(){
         def status0 = params.get('status').toString().toInteger()
 
@@ -112,14 +109,14 @@ class ProductItemController extends RestfulController<ProductItem>{
         [values: productItemService.findAllByProductStatus(status0)]
     }
 
+    @Transactional(readOnly = true)
     def base(){
         def productBaseId = params['id'].toString().toInteger()
 
         if(!ProductBase.exists(productBaseId))
             return render(view: 'error')
 
-        def productBase = productBaseService.get(productBaseId)
-        def all = productItemService.findAllByProductBase(productBase)
+        def all = productItemService.findAllByProductBase(productBaseId)
         def groupStatus = all.groupBy {it.status.id}
 
         render(
