@@ -7,27 +7,36 @@ import grails.gorm.services.Service
 import grails.gorm.services.Where
 
 @Service(ProductItem)
-interface ProductItemService {
+abstract class ProductItemService {
+    abstract ProductItem save(ProductItem productItem)
 
-    ProductItem save(ProductItem productItem)
+    abstract ProductItem get(String barcode)
 
-    ProductItem get(String barcode)
-
-    ProductItem update(String id, String assigned, ProductBase base, ProductStatus status)
+    abstract ProductItem update(String id, String assigned, ProductBase base, ProductStatus status)
 
     @Where({enabled == true})
-    List<ProductItem> findAll()
+    abstract List<ProductItem> findAll()
 
     @Where({status.id == ProductStatus.IN_STOCK.id})
-    List<ProductItem> listAllInStock()
+    abstract List<ProductItem> listAllInStock()
 
     @Where({status.id == ProductStatus.OUT_STOCK.id})
-    List<ProductItem> listAllOutStock()
+    abstract List<ProductItem> listAllOutStock()
 
     @Where({status.id == ProductStatus.OUT_SALE.id})
-    List<ProductItem> listAllOutSale()
+    abstract List<ProductItem> listAllOutSale()
+
+    @Where({base.id == productBase.id})
+    abstract List<ProductItem> findAllByProductBase(ProductBase productBase)
 
     @Where({status.id == productStatus.id})
-    int countByProductStatus(ProductStatus productStatus)
+    abstract int countByProductStatus(ProductStatus productStatus)
+
+    List<ProductItem> searchAllContains(String value){
+        def values = value.split(',')
+        return ProductItem.where {
+            barcode in values || assigned in values || base.name in values || base.description in values
+        }.list()
+    }
 
 }

@@ -3,6 +3,7 @@ package com.swiss.healthcare.controller
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
+import com.swiss.healthcare.service.ProductBaseService
 import com.swiss.healthcare.service.ProductItemService
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
@@ -12,6 +13,8 @@ import groovy.util.logging.Log
 class ProductItemController extends RestfulController<ProductItem>{
 
     ProductItemService productItemService
+
+    ProductBaseService productBaseService
 
     ProductItemController() {
         super(ProductItem.class)
@@ -112,18 +115,24 @@ class ProductItemController extends RestfulController<ProductItem>{
     }
 
     def base(){
-        def productBaseId = params['id'].toString().toLong()
-        def all = ProductItem.where { base.id == productBaseId }.list()
+        def productBaseId = params['id'].toString().toInteger()
 
-        [
+        if(!ProductBase.exists(productBaseId))
+            return render(view: 'error')
+
+        def productBase = productBaseService.get(productBaseId)
+        def all = productItemService.findAllByProductBase(productBase)
+        def groupStatus = all.groupBy {it.status.id}
+
+        render(
                 view: 'index',
                 model: [
-                    products:       all,
-                    stockInCount:   all.findAll {it.status.id == ProductStatus.IN_STOCK.id }.size(),
-                    stockOutCount:  all.findAll {it.status.id == ProductStatus.OUT_STOCK.id }.size(),
-                    saleOutCount:   all.findAll {it.status.id == ProductStatus.OUT_SALE.id }.size()
+                        products:       all,
+                        stockInCount:   groupStatus.getOrDefault(ProductStatus.IN_STOCK.id, []).size(),
+                        stockOutCount:  groupStatus.getOrDefault(ProductStatus.OUT_STOCK.id, []).size(),
+                        saleOutCount:   groupStatus.getOrDefault(ProductStatus.OUT_SALE.id, []).size()
                 ]
-        ]
+        )
     }
 
 }

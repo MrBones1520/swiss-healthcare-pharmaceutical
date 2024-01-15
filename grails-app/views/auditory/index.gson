@@ -1,0 +1,16 @@
+model {
+    List<ProductItem> allItems      = []
+    List<ProductItem> listNotFound  = []
+    int inStockCount                = 0
+    int outStockCount               = 0
+    int outSaleCount                = 0
+    int inconOutSale                = 0
+    int inconOutStock               = 0
+}
+
+json {
+    total               g.render([inStockCount , outStockCount, outSaleCount])
+    inconsistencies     g.render([inconOutSale + inconOutStock, inconOutStock, inconOutSale])
+    items               g.render(allItems)
+    notFounds           g.render(listNotFound)
+}

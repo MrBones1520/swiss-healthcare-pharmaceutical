@@ -1,0 +1,10 @@
+model {
+    List<ProductItem> items = []
+    String searchValue
+}
+
+json {
+    search searchValue
+    results g.render(items)
+}
+

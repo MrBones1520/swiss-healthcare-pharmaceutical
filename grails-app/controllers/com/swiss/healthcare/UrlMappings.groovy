@@ -5,6 +5,9 @@ class UrlMappings{
         "/"(controller: 'application', action:'index')
         post "/login"(controller: 'login', action: 'login')
 
+        get     "/products/auditory"(controller: 'auditory', action: 'index')
+        get     "/products/auditory/search"(controller: 'auditory', action: 'search')
+
         get     "/products/status"(controller: 'productStatus', action: 'index')
         get     "/products/status/$id"(controller: 'productStatus', action: 'show')
         post    "/products/status"(controller: 'productStatus', action: 'save')
