@@ -27,4 +27,7 @@ interface ProductItemService {
     @Where({status.id == ProductStatus.OUT_SALE.id})
     List<ProductItem> listAllOutSale()
 
+    @Where({status.id == productStatus.id})
+    int countByProductStatus(ProductStatus productStatus)
+
 }

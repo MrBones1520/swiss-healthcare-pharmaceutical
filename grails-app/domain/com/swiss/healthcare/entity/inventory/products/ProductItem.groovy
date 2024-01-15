@@ -17,17 +17,14 @@ class ProductItem implements GormEntity<ProductItem>{
     static constraints = {
         barcode unique: true, size: 7..25
         assigned nullable: true
+        dateCreated updatable: false
     }
 
     static mapping = {
         id name: 'barcode', generator: 'assigned'
         base updateable: true, lazy: false
         cache false
-    }
-
-    def disabled(){
-        enabled = false
-        this
+        sort lastUpdated: 'desc'
     }
 
 }

@@ -90,10 +90,10 @@ class ProductItemController extends RestfulController<ProductItem>{
     @Transactional(readOnly = true)
     def index(){
         [
-            products:       ProductItem.findAll([sort: 'lastUpdated', order: 'desc']),
-            stockInCount:   productItemService.listAllInStock().size(),
-            stockOutCount:  productItemService.listAllOutStock().size(),
-            saleOutCount:   productItemService.listAllOutSale().size()
+            products:       productItemService.findAll(),
+            stockInCount:   productItemService.countByProductStatus(ProductStatus.IN_STOCK),
+            stockOutCount:  productItemService.countByProductStatus(ProductStatus.OUT_STOCK),
+            saleOutCount:   productItemService.countByProductStatus(ProductStatus.OUT_SALE)
         ]
     }
 
