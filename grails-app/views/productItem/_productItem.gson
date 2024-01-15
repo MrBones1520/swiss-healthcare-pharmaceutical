@@ -8,5 +8,5 @@ json {
     status g.render(productItem.status, [excludes: ['description']])
     assigned productItem.assigned
     dateCreated productItem.dateCreated
-    lastUpdated productItem.dateCreated
+    lastUpdated productItem.lastUpdated
 }
