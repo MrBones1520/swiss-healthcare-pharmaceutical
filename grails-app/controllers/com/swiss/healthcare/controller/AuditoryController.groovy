@@ -46,4 +46,25 @@ class AuditoryController implements Controller {
         )
     }
 
+    def inStock(){
+        if('')
+            render()
+        def barcodes = request.JSON['barcodes']
+        if(',' in barcodes)
+            barcodes = barcodes.split(',')
+        def barcodeExist = barcodes.
+                findAll { ProductItem.exists(it)}.
+                collect {productItemService.get(it)}.
+                collect {it.status = ProductStatus.IN_STOCK}.
+                collect {it.save(flush: true)}
+
+        if(!barcodeExist){
+            request.status = '204'
+            return
+        }
+        [
+            'items': barcodeExist
+        ]
+    }
+
 }

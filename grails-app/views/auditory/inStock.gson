@@ -1,0 +1,7 @@
+model {
+    List<ProductItem> items = []
+}
+
+json {
+    stock g.render(items)
+}

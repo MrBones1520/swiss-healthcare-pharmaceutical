@@ -8,6 +8,7 @@ class UrlMappings{
 
         get     "/products/auditory"(controller: 'auditory', action: 'index')
         get     "/products/auditory/search"(controller: 'auditory', action: 'search')
+        post    "/products/auditory/stock"(controller: 'auditory', action: 'inStock')
 
         get     "/products/status"(controller: 'productStatus', action: 'index')
         get     "/products/status/$id"(controller: 'productStatus', action: 'show')
