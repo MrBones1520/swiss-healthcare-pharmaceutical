@@ -45,7 +45,7 @@ class AuditoryController implements Controller {
         render(
                 view: 'search',
                 status: value ? '200' : '204',
-                model: [searchValue: value, items: productItemService.searchAllContains(value)]
+                model: [searchValue: value, items: productItemService.searchLike(value)]
         )
     }
 

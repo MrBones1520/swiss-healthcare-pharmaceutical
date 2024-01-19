@@ -26,11 +26,26 @@ abstract class ProductItemService {
     @Where({status.id == productStatus.id})
     abstract int countByProductStatus(ProductStatus productStatus)
 
-    List<ProductItem> searchAllContains(String value){
-        def values = value.split(',')
-        return ProductItem.where {
-            barcode in values || assigned in values || base.name in values || base.description in values
-        }.list()
+    List<ProductItem> searchLike(String value){
+        if(value.contains(','))
+            return value.split(',').collect(this::callCriteria).flatten()
+
+       callCriteria(value)
+    }
+
+    def callCriteria(String value){
+        ProductItem.createCriteria().list {
+            or {
+                like("barcode", "%$value%")
+                ilike("assigned", "%$value%")
+                base {
+                    or{
+                        ilike("name", "%$value%")
+                        ilike("description", "%$it%")
+                    }
+                }
+            }
+        }
     }
 
 }

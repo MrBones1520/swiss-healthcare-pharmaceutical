@@ -22,7 +22,7 @@ class ProductItem implements GormEntity<ProductItem>{
 
     static mapping = {
         id name: 'barcode', generator: 'assigned'
-        base updateable: true, lazy: false
+        base updateable: true, lazy: false, fetch: 'join'
         cache false
         sort lastUpdated: 'desc'
     }
