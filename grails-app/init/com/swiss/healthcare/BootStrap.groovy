@@ -114,12 +114,13 @@ class BootStrap {
 
     def defaultStatus(){
         log.info("Try create product status.gson")
-        def stockIn = productStatusService.save(ProductStatus.IN_STOCK)
-        def stockOut = productStatusService.save(ProductStatus.OUT_STOCK)
-        def saleOut = productStatusService.save(ProductStatus.OUT_SALE)
-        printCube(stockIn)
-        printCube(stockOut)
-        printCube(saleOut)
+        [ProductStatus.IN_STOCK, ProductStatus.OUT_STOCK, ProductStatus.OUT_SALE].each {
+            if(!ProductStatus.exists(it.id)){
+                def stockIn = productStatusService.save(ProductStatus.IN_STOCK)
+                printCube(stockIn)
+            }
+        }
+
     }
 
 }
