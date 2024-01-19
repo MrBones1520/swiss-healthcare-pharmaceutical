@@ -13,18 +13,21 @@ class AuditoryController implements Controller {
 
     def index(){
         def items = productItemService.findAll()
-        def notFounds = items.clone()
+        def notFounds= []
+
         if(params.containsKey("barcodes")) {
             def barcodes = params['barcodes'].toString().split(',').toList()
-            items = items.findAll {barcodes.contains(it.barcode)}
-            notFounds = notFounds.findAll {  !barcodes.contains(it.barcode)}
+            items = items.findAll {it.barcode in barcodes}
+            notFounds = items
+                    .findAll {!barcodes.contains(it.barcode)}
+                    .findAll {it.status.id == ProductStatus.IN_STOCK.id}
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
-                items = items.findAll {ProductItem it -> it.base.id == baseId}
-                notFounds = notFounds.findAll {ProductItem it -> it.base.id == baseId && it.status.id == ProductStatus.IN_STOCK.id}
+                items = items.findAll { it.base.id == baseId}
+                notFounds = notFounds.findAll {it.base.id == baseId}
             }
-
         }
+
         def groupStatus = items.groupBy {it.status.id}
         [
             inStockCount            :   productItemService.countByProductStatus(ProductStatus.IN_STOCK),
