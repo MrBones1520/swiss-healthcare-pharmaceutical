@@ -116,7 +116,7 @@ class BootStrap {
         log.info("Try create product status.gson")
         [ProductStatus.IN_STOCK, ProductStatus.OUT_STOCK, ProductStatus.OUT_SALE].each {
             if(!ProductStatus.exists(it.id)){
-                def stockIn = productStatusService.save(ProductStatus.IN_STOCK)
+                def stockIn = productStatusService.save(it)
                 printCube(stockIn)
             }
         }

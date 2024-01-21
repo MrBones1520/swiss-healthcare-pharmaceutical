@@ -56,9 +56,12 @@ class AuditoryController implements Controller {
         if(',' in barcodes)
             barcodes = barcodes.split(',')
         def barcodeExist = barcodes.
-                findAll { ProductItem.exists(it)}.
-                collect {productItemService.get(it)}.
-                collect {it.status = ProductStatus.IN_STOCK}.
+                findAll {ProductItem.exists(it)}.
+                collect {
+                    def item = productItemService.get(it)
+                    item.status = ProductStatus.IN_STOCK
+                    item.assigned = null
+                }.
                 collect {it.save(flush: true)}
 
         if(!barcodeExist){
