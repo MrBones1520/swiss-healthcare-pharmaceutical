@@ -28,23 +28,22 @@ class BootStrap {
 
         if(Environment.getCurrentEnvironment() != Environment.PRODUCTION)
             defaultData()
+
+        log.info("Try create a user")
+        def user = userService.save(
+                new User(email: 'root@admin.com',
+                        username: 'root',
+                        password: 'root',
+                        person: new Person(firstName: 'root',motherSName: '546', fatherSName: 'Sanchez', birthday: new Date())
+                )
+        )
+        printCube(user)
     }
 
     def destroy = {
     }
 
     def defaultData = {
-            log.info("Try create a user")
-            def user = userService.save(
-                    new User(email: 'root@admin.com',
-                            username: 'qotsa1520',
-                            password: 'x1234',
-                            person: new Person(firstName: 'root',motherSName: '546', fatherSName: 'Sanchez', birthday: new Date())
-                    )
-            )
-            printCube(user)
-
-
             log.info("Try create product base")
             def paracetamol = productBaseService.save(new ProductBase(name: 'paracetamol', description: '600ml'))
             def nolotil = productBaseService.save(new ProductBase(name: 'nolotil', description: '800gr'))

@@ -1,0 +1,9 @@
+FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
+
+WORKDIR /app
+
+COPY /build/libs/swiss-healthcare-pharmaceutical-0.1.jar .
+
+RUN ["mv", "/app/swiss-healthcare-pharmaceutical-0.1.jar", "/app/application.jar"]
+
+CMD ["sh", "-c","java -Djava.security.egd=file:/dev/./urandom -jar /app/application.jar"]
