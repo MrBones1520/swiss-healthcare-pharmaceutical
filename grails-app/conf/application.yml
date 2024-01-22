@@ -32,7 +32,7 @@ environments:
       pooled: true
       jmxExport: true
   production:
-      dbCreate: none
+      dbCreate: update
       url: jdbc:mysql://34.121.109.172/swiss-healthcare-pharma-api:us-central1:swiss-healthcare-database
       driverClassName: com.mysql.jdbc.Driver
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
