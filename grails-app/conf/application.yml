@@ -32,9 +32,10 @@ environments:
       pooled: true
       jmxExport: true
   production:
-      dbCreate: none
-      url: jdbc:mysql://34.121.109.172/swiss-healthcare-pharma-api:us-central1:swiss-healthcare-database
-      driverClassName: com.mysql.jdbc.Driver
+    dataSource:
+      dbCreate: validate
+      url: jdbc:mysql://34.121.109.172/swiss-healthcare-database
+      driverClassName: com.mysql.cj.jdbc.Driver
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       username: root
       password: 'fQ0vinq=vyqD[|K5'

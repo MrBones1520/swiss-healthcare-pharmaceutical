@@ -26,9 +26,6 @@ class BootStrap {
     def init = { servletContext ->
         defaultStatus()
 
-        if(Environment.getCurrentEnvironment() != Environment.PRODUCTION)
-            defaultData()
-
         log.info("Try create a user")
         def user = userService.save(
                 new User(email: 'root@admin.com',
@@ -38,6 +35,9 @@ class BootStrap {
                 )
         )
         printCube(user)
+
+        if(Environment.getCurrentEnvironment() != Environment.PRODUCTION)
+            defaultData()
     }
 
     def destroy = {
