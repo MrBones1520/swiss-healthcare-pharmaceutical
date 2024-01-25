@@ -1,0 +1,20 @@
+runtime: java
+service: default
+env: flex
+
+runtime_config:
+  jdk: openjdk11
+  server: jetty9
+
+health_check:
+    enable_health_check: False
+
+resources:
+  cpu: 1
+  memory_gb: 2.3
+
+handlers:
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto

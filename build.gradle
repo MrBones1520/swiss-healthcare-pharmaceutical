@@ -1,3 +1,21 @@
+
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core/" }
+        //maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
+        // classpath "org.grails.plugins:hibernate5"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.2"
+        //classpath "org.gretty:gretty:3.0.9"
+    }
+
+}
+
 plugins {
     id "groovy"
     id "org.grails.grails-web"
@@ -11,7 +29,10 @@ plugins {
 version "0.1"
 group = "com.swiss.healthcare"
 
+
+apply plugin: 'com.google.cloud.tools.appengine'
 apply from: "gradle/asciidoc.gradle"
+
 repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
@@ -42,12 +63,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-logging")
-    implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     compileOnly("io.micronaut:micronaut-inject-groovy")
     console("org.grails:grails-console")
     runtimeOnly("com.h2database:h2")
     runtimeOnly('mysql:mysql-connector-java:8.0.28')
+    runtimeOnly('com.google.cloud.sql:mysql-socket-factory-connector-j-6:1.0.3')
     runtimeOnly("javax.xml.bind:jaxb-api:2.3.1")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     //runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
@@ -76,43 +98,9 @@ java {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
-//
-//tasks.register('prepareDocker', Copy) {
-//    dependsOn assemble
-//    description = 'Copy files from src/main/docker and application jar to Docker temporal build directory'
-//    group = 'Docker'
-//
-//    from 'src/main/docker'
-//    from project.jar
-//
-//    into dockerBuildDir
-//}
-//
-//tasks.register('createDockerfile', Dockerfile) {
-//    dependsOn prepareDocker
-//    description = 'Create a Dockerfile file'
-//    group = 'Docker'
-//
-//    destFile = project.file("${dockerBuildDir}/Dockerfile")
-//
-//    from 'amazoncorretto:11-alpine-jdk'
-//
-//    exposePort 8080
-//
-//    workingDir '/app'
-//
-//    copyFile project.jar, 'application.jar'
-//    copyFile 'app-entrypoint.sh', 'app-entrypoint.sh'
-//    runCommand 'chmod +x app-entrypoint.sh'
-//
-//    entryPoint '/app/app-entrypoint.sh'
-//}
-//
-//tasks.register('buildImage', DockerBuildImage) {
-//    dependsOn createDockerfile
-//    description = 'Create Docker image to run the Grails application'
-//    group = 'Docker'
-//
-//    inputDir = file(dockerBuildDir)
-//    images.add(dockerTag)
-//}
+
+configurations {
+    compile.exclude module: 'tomcat-juli'
+    compile.exclude module: 'spring-boot-starter-tomcat'
+    compile.exclude group: 'com.google.guava', module: "guava-jdk5"
+}
