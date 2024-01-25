@@ -23,7 +23,7 @@ abstract class ProductItemService {
     @Where({base.id == id})
     abstract List<ProductItem> findAllByProductBase(Serializable id)
 
-    @Where({status.id == productStatus.id})
+    @Where({status.name == productStatus.name})
     abstract int countByProductStatus(ProductStatus productStatus)
 
     List<ProductItem> searchLike(String value){

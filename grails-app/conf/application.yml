@@ -34,7 +34,7 @@ environments:
   production:
     dataSource:
       dbCreate: update
-      url: jdbc:mysql://google/swiss-healthcare-db?socketFactory=com.google.cloud.sql.SocketFactory&cloudSqlInstance=swiss-healthcare-pharma-api:us-central1:swiss-healthcare-database&useSSL=true
+      url: jdbc:mysql://34.121.109.172:3306/swiss-healthcare-db
       driverClassName: com.mysql.cj.jdbc.Driver
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       username: root

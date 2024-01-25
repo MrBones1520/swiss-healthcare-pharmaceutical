@@ -26,15 +26,17 @@ class BootStrap {
     def init = { servletContext ->
         defaultStatus()
 
-        log.info("Try create a user")
-        def user = userService.save(
-                new User(email: 'root@admin.com',
-                        username: 'root',
-                        password: 'root',
-                        person: new Person(firstName: 'root',motherSName: '546', fatherSName: 'Sanchez', birthday: new Date())
-                )
-        )
-        printCube(user)
+        if(!User.find {username == 'root'}){
+            log.info("Try create a user")
+            def user = userService.save(
+                    new User(email: 'root@admin.com',
+                            username: 'root',
+                            password: 'root',
+                            person: new Person(firstName: 'root',motherSName: '546', fatherSName: 'Sanchez', birthday: new Date())
+                    )
+            )
+            printCube(user)
+        }
 
         if(Environment.getCurrentEnvironment() != Environment.PRODUCTION)
             defaultData()
@@ -113,11 +115,9 @@ class BootStrap {
 
     def defaultStatus(){
         log.info("Try create product status.gson")
-        [ProductStatus.IN_STOCK, ProductStatus.OUT_STOCK, ProductStatus.OUT_SALE].each {
-            if(!ProductStatus.exists(it.id)){
-                def stockIn = productStatusService.save(it)
-                printCube(stockIn)
-            }
+        ProductStatus.values().each {
+            if(!it.id)
+                printCube(productStatusService.save(it))
         }
 
     }
