@@ -93,9 +93,9 @@ class ProductItemController extends RestfulController<ProductItem>{
     def index(){
         [
             products:       productItemService.findAll(),
-            stockInCount:   productItemService.countByProductStatus(ProductStatus.IN_STOCK),
-            stockOutCount:  productItemService.countByProductStatus(ProductStatus.OUT_STOCK),
-            saleOutCount:   productItemService.countByProductStatus(ProductStatus.OUT_SALE)
+            stockInCount:   productItemService.countByProductStatus(1),
+            stockOutCount:  productItemService.countByProductStatus(2),
+            saleOutCount:   productItemService.countByProductStatus(3)
         ]
     }
 

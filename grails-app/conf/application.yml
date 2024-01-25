@@ -33,7 +33,7 @@ environments:
       jmxExport: true
   production:
     dataSource:
-      dbCreate: update
+      dbCreate: create-drop
       url: jdbc:mysql://34.121.109.172:3306/swiss-healthcare-db
       driverClassName: com.mysql.cj.jdbc.Driver
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect

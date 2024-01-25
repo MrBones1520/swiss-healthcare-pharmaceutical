@@ -23,8 +23,8 @@ abstract class ProductItemService {
     @Where({base.id == id})
     abstract List<ProductItem> findAllByProductBase(Serializable id)
 
-    @Where({status.name == productStatus.name})
-    abstract int countByProductStatus(ProductStatus productStatus)
+    @Where({status.id == id})
+    abstract int countByProductStatus(int id)
 
     List<ProductItem> searchLike(String value){
         if(value.contains(','))

@@ -24,9 +24,10 @@ class BootStrap {
     ProductItemService productItemService
 
     def init = { servletContext ->
-        defaultStatus()
+        if(ProductStatus.count == 0)
+            defaultStatus()
 
-        if(!User.find {username == 'root'}){
+        if(User.count() == 0){
             log.info("Try create a user")
             def user = userService.save(
                     new User(email: 'root@admin.com',
@@ -115,10 +116,9 @@ class BootStrap {
 
     def defaultStatus(){
         log.info("Try create product status.gson")
-        ProductStatus.values().each {
-            if(!it.id)
-                printCube(productStatusService.save(it))
-        }
+        [new ProductStatus(name: 'IN_STOCK', description: 'Product in stock'),
+         new ProductStatus(name: 'OUT_STOCK', description: 'Product out stock'),
+         new ProductStatus(name: 'OUT_SALE', description: 'Product out sale')].each { printCube(productStatusService.save(it))}
 
     }
 

@@ -30,13 +30,13 @@ class AuditoryController implements Controller {
 
         def groupStatus = items.groupBy {it.status.id}
         [
-            inStockCount            :   productItemService.countByProductStatus(ProductStatus.IN_STOCK),
-            outStockCount           :   productItemService.countByProductStatus(ProductStatus.OUT_STOCK),
-            outSaleCount            :   productItemService.countByProductStatus(ProductStatus.OUT_SALE),
+            inStockCount            :   productItemService.countByProductStatus(1),
+            outStockCount           :   productItemService.countByProductStatus(2),
+            outSaleCount            :   productItemService.countByProductStatus(3),
             listNotFound            :   notFounds,
             allItems                :   items,
-            inconOutSale            :   groupStatus.getOrDefault(ProductStatus.OUT_SALE.id, []).size(),
-            inconOutStock           :   groupStatus.getOrDefault(ProductStatus.OUT_STOCK.id, []).size(),
+            inconOutSale            :   groupStatus.getOrDefault(2, []).size(),
+            inconOutStock           :   groupStatus.getOrDefault(3, []).size(),
         ]
     }
 
