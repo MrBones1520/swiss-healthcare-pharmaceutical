@@ -27,13 +27,10 @@ abstract class ProductItemService {
     abstract int countByProductStatus(int id)
 
     List<ProductItem> searchLike(String value){
-        if(value.contains(','))
-            return value.split(',').collect(this::callCriteria).flatten()
-
-       callCriteria(value)
+        value.contains(',') ? value.split(',').collect(this::callCriteria).flatten() : callCriteria(value)
     }
 
-    def callCriteria(String value){
+   def callCriteria(String value){
         ProductItem.createCriteria().list {
             or {
                 like("barcode", "%$value%")
@@ -45,7 +42,7 @@ abstract class ProductItemService {
                     }
                 }
             }
-        }
+        } as List<ProductItem>
     }
 
 }
