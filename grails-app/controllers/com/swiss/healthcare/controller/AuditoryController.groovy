@@ -42,8 +42,8 @@ class AuditoryController implements Controller {
 
     def search(){
         def value = params?.value
+        def barcodes = params?.barcodes ?: [] as Set<String>
         def searchValues = productItemService.searchLike(value)
-        def barcodes = searchValues*.barcode ?: [] as Set<String>
         def notFounds   = searchValues
                 .findAll {!barcodes.contains(it.barcode)}
                 .findAll {it.status.id != 2}
