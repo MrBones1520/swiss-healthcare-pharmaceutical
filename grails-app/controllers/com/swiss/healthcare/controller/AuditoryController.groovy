@@ -20,7 +20,7 @@ class AuditoryController implements Controller {
             items = items.findAll {it.barcode in barcodes}
             notFounds = notFounds
                     .findAll {!barcodes.contains(it.barcode)}
-                    .findAll {it.status.id != ProductStatus.OUT_SALE.id}
+                    .findAll {it.status.id != 2}
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
                 items = items.findAll { it.base.id == baseId}
@@ -42,10 +42,25 @@ class AuditoryController implements Controller {
 
     def search(){
         def value = params?.value
+        def searchValues = productItemService.searchLike(value)
+        def barcodes = searchValues*.barcode ?: [] as Set<String>
+        def notFounds   = searchValues
+                .findAll {!barcodes.contains(it.barcode)}
+                .findAll {it.status.id != 2}
+        def groupStatus = searchValues.groupBy {it.status.id}
         render(
-                view: 'search',
+                view:   'search',
                 status: value ? '200' : '204',
-                model: [searchValue: value, items: productItemService.searchLike(value)]
+                model: [
+                        searchValue             :   value,
+                        items                   :   searchValues,
+                        listNotFound            :   notFounds,
+                        inStockCount            :   productItemService.countByProductStatus(1),
+                        outStockCount           :   productItemService.countByProductStatus(2),
+                        outSaleCount            :   productItemService.countByProductStatus(3),
+                        inconOutSale            :   groupStatus.getOrDefault(2, []).size(),
+                        inconOutStock           :   groupStatus.getOrDefault(3, []).size(),
+                ]
         )
     }
 

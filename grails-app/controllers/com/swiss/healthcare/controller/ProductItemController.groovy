@@ -3,9 +3,7 @@ package com.swiss.healthcare.controller
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
-import com.swiss.healthcare.service.ProductBaseService
 import com.swiss.healthcare.service.ProductItemService
-import com.swiss.healthcare.service.ProductStatusService
 import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import groovy.util.logging.Log

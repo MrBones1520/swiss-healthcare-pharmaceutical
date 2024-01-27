@@ -1,10 +1,20 @@
 model {
-    List<ProductItem> items = []
     String searchValue
+    List<ProductItem> items         = []
+    List<ProductItem> listNotFound  = []
+    int inStockCount                = 0
+    int outStockCount               = 0
+    int outSaleCount                = 0
+    int inconOutSale                = 0
+    int inconOutStock               = 0
+    int inconNotfound               = listNotFound.size()
 }
 
 json {
     search searchValue
-    results g.render(items)
+    total               g.render([inStockCount , outStockCount, outSaleCount])
+    inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale])
+    results             g.render(items)
+    notFounds           g.render(listNotFound)
 }
 
