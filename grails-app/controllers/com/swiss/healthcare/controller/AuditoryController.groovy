@@ -41,19 +41,18 @@ class AuditoryController implements Controller {
     }
 
     def search(){
-        def value = params?.value
+        String value = params?.value
         def barcodes = params?.barcodes ?: [] as Set<String>
         def searchValues = productItemService.searchLike(value)
-        def notFounds   = searchValues
-                .findAll {!barcodes.contains(it.barcode)}
-                .findAll {it.status.id != 2}
+        def items = searchValues.findAll {barcodes.contains(it.barcode)}
+        def notFounds   = searchValues.findAll {!barcodes.contains(it.barcode) && it.status.id != 2}
         def groupStatus = searchValues.groupBy {it.status.id}
         render(
                 view:   'search',
                 status: value ? '200' : '204',
                 model: [
                         searchValue             :   value,
-                        items                   :   searchValues,
+                        items                   :   items,
                         listNotFound            :   notFounds,
                         inStockCount            :   productItemService.countByProductStatus(1),
                         outStockCount           :   productItemService.countByProductStatus(2),
