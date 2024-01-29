@@ -12,8 +12,6 @@ class UserController extends RestfulController<User>{
         super(User.class)
     }
 
-    def index(){
-        [users: userService.findAll()]
-    }
+    def index(){ [users: userService.findAll()] }
 
 }

@@ -15,15 +15,13 @@ class AuditoryController implements Controller {
 
     def index(){
         def items = productItemService.findAll()
-        def notFounds = items.clone()
-
+        def notFounds = items
         if(params.containsKey("barcodes")) {
             def barcodes = params['barcodes'].toString().split(',').toList()
             items = items.findAll {it.barcode in barcodes}
-            notFounds = notFounds
-                    .findAll {!barcodes.contains(it.barcode) && it.status.id == OUT_STOCK.id}
+            notFounds = notFounds.findAll {it.barcode !in barcodes && it.status.id == OUT_STOCK.id}
             if(params.containsKey('baseId')){
-                def baseId = params['baseId'].toString().toLong()
+                def baseId = params['baseId'] as Long
                 def findBaseId = {it.base.id == baseId}
                 items = items.findAll(findBaseId)
                 notFounds = notFounds.findAll(findBaseId)
@@ -37,17 +35,17 @@ class AuditoryController implements Controller {
             outSaleCount            :   productItemService.countByProductStatus(OUT_SALE.id),
             listNotFound            :   notFounds,
             allItems                :   items,
-            inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0,
-            inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
+            inconOutSale            :   groupStatus?[OUT_SALE.id]?.size()  ?: 0,
+            inconOutStock           :   groupStatus?[OUT_STOCK.id]?.size() ?: 0,
         ]
     }
 
     def search(){
         String value = params?.value
         def barcodes= params?.barcodes ?: [] as Set<String>
-        def searchValues =  productItemService.searchLike(value)
+        def searchValues = productItemService.searchLike(value)
         def statusOuter  = {it.status.id == OUT_STOCK.id}
-        def checkBarcodes= {barcodes.contains(it.barcode)}
+        def checkBarcodes= {it.barcode in barcodes}
         def groupByStatus = {it.status.id as Integer}
         def items= searchValues
         def notFounds= searchValues.findAll(statusOuter)
@@ -60,37 +58,36 @@ class AuditoryController implements Controller {
         }
         render(
                 view:   'search',
-                status: value ? '200' : '204',
-                model: [
+                status:  value ? '200' : '204',
+                model:   [
                         searchValue             :   value,
                         items                   :   items,
                         listNotFound            :   notFounds,
                         inStockCount            :   productItemService.countByProductStatus(IN_STOCK.id),
                         outStockCount           :   productItemService.countByProductStatus(OUT_STOCK.id),
                         outSaleCount            :   productItemService.countByProductStatus(OUT_SALE.id),
-                        inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size() ?: 0,
-                        inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
+                        inconOutSale            :   groupStatus?[OUT_SALE.id]?.size() ?: 0,
+                        inconOutStock           :   groupStatus?[OUT_STOCK.id]?.size() ?: 0,
                 ]
         )
     }
 
     def inStock(){
-        def barcodes = request.JSON?.barcodes
-        if(',' in barcodes)
-            barcodes = barcodes.split(',')
-        def barcodeExist = barcodes
-                .findAll {ProductItem.exists(it)}
-                .collect {
-                    def item = productItemService.get(it)
-                    item.status = ProductStatus.IN_STOCK
-                    item.assigned = null
-                }
-                .collect {it.save(flush: true)}
-
-        if(!barcodeExist){
-            request.status = '204'
+        def barcodes = request.JSON?.barcodes ?: ''
+        if(',' !in barcodes)
             return
-        }
+        barcodes = barcodes.split(',') as List<String>
+        def barcodeExist = barcodes
+                .findAll(ProductItem::exists)
+                .collect(productItemService::get)
+                .collect { item ->
+                    item.status = ProductStatus.get(IN_STOCK.id)
+                    item.assigned = null
+                    item
+                }.collect {it.save(flush: true)}
+
+        if(!barcodeExist)
+            render status: '204'
 
         ['items': barcodeExist]
     }

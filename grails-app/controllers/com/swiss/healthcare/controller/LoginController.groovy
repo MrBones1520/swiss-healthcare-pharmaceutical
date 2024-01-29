@@ -8,8 +8,8 @@ class LoginController implements Controller {
     UserService userService
 
     def login() {
-        String username0 = request.getJSON()['username']
-        String password0 = request.getJSON()['password']
+        String username0 = request.JSON?['username']
+        String password0 = request.JSON?['password']
         def user = userService.findByUsernameAndPassword(username0, password0)
 
         return render(

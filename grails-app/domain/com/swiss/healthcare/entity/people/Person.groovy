@@ -1,7 +1,9 @@
 package com.swiss.healthcare.entity.people
 
+import grails.rest.Resource
 import org.grails.datastore.gorm.GormEntity
 
+@Resource
 class Person implements GormEntity<Person>{
 
     String firstName
