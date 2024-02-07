@@ -13,10 +13,18 @@ class ProductBaseController extends RestfulController<ProductBase> {
     }
 
     def index(){
-        [products: productBaseService.findAll()]
+        def data = productBaseService.findAll()
+        render([view: 'index', status: data ? '200' : '204', model: [products: data]])
     }
 
     def show(int id){
-        [productBase: productBaseService.get(id)]
+        def base = productBaseService.get(id)
+
+        if(base){
+            render([view: 'show', status: '200', model: [productBase: base]])
+            return
+        }
+            String error = !id ? "El id es invalido" : !base ? "El producto base no existe: ${id}": ''
+            render([view: '/error', status:'409', model: [messageError: error]])
     }
 }
