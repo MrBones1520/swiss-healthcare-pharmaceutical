@@ -8,6 +8,8 @@ import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import groovy.util.logging.Log
 
+import static com.swiss.healthcare.ProductStatusE.*
+
 @Log
 class ProductItemController extends RestfulController<ProductItem>{
 
@@ -40,7 +42,7 @@ class ProductItemController extends RestfulController<ProductItem>{
                 newItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
             return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
-        }.groupBy { it.isAttached()  }
+        }.groupBy { it.isAttached()}
 
         render(
             view: 'save',
@@ -100,7 +102,6 @@ class ProductItemController extends RestfulController<ProductItem>{
     @Transactional(readOnly = true)
     def status(){
         def status0 = params.get('status').toString().toInteger()
-
         if(!ProductStatus.exists(status0))
             return render(view: '/error')
 
@@ -110,7 +111,6 @@ class ProductItemController extends RestfulController<ProductItem>{
     @Transactional(readOnly = true)
     def base(){
         def productBaseId = params['id'].toString().toInteger()
-
         if(!ProductBase.exists(productBaseId))
             return render(view: 'error')
 
@@ -121,9 +121,9 @@ class ProductItemController extends RestfulController<ProductItem>{
                 view: 'index',
                 model: [
                         products:       all,
-                        stockInCount:   groupStatus.getOrDefault(ProductStatus.IN_STOCK.id, []).size(),
-                        stockOutCount:  groupStatus.getOrDefault(ProductStatus.OUT_STOCK.id, []).size(),
-                        saleOutCount:   groupStatus.getOrDefault(ProductStatus.OUT_SALE.id, []).size()
+                        stockInCount:   groupStatus?.get(IN_STOCK.id)?.size()  ?: 0,
+                        stockOutCount:  groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
+                        saleOutCount:   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0
                 ]
         )
     }

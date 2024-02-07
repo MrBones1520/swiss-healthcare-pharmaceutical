@@ -8,11 +8,13 @@ import spock.lang.Specification
 
 class LoginControllerSpec extends Specification implements ControllerUnitTest<LoginController>{
 
-    User user
+    User domain
 
     def setup(){
-        user = new User(
-                email: 'abcd@me.com', username: 'qotsa1520', password: '123456',
+        domain = new User(
+                email: 'abcd@me.com',
+                username: 'qotsa1520',
+                password: '123456',
                 person: new Person(firstName: 'testUser', fatherSName: 'stub', motherSName: 'stub', birthday: new Date())
         )
     }
@@ -20,11 +22,11 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     def 'login user successful'() {
         given:
         controller.userService = Stub(UserService){
-            findByUsernameAndPassword(user.username, user.password) >> user
+            findByUsernameAndPassword(domain.username, domain.password) >> domain
         }
 
         when:
-        request.JSON = ['username': user.username, 'password': user.password]
+        request.JSON = ['username': domain.username, 'password': domain.password]
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'POST'
         controller.login()

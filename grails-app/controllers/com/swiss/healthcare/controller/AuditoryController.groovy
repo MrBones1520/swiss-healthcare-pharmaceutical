@@ -1,7 +1,6 @@
 package com.swiss.healthcare.controller
 
 import com.swiss.healthcare.entity.inventory.products.ProductItem
-import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import com.swiss.healthcare.service.ProductItemService
 import grails.artefact.Controller
 import grails.gorm.transactions.Transactional
@@ -12,16 +11,16 @@ import static com.swiss.healthcare.ProductStatusE.*
 class AuditoryController implements Controller {
 
     ProductItemService productItemService
+    def groupByStatus = {it.status.id as Integer}
 
     def index(){
         def items = productItemService.findAll()
-        def notFounds = items.clone()
+        def notFounds = items
 
         if(params.containsKey("barcodes")) {
             def barcodes = params['barcodes'].toString().split(',').toList()
             items = items.findAll {it.barcode in barcodes}
-            notFounds = notFounds
-                    .findAll {!barcodes.contains(it.barcode) && it.status.id == OUT_STOCK.id}
+            notFounds = notFounds.findAll {!barcodes.contains(it.barcode) && it.status.id == OUT_STOCK.id}
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
                 def findBaseId = {it.base.id == baseId}
@@ -30,7 +29,7 @@ class AuditoryController implements Controller {
             }
         }
 
-        def groupStatus = items.groupBy {it.status.id as Integer}
+        def groupStatus = items.groupBy(groupByStatus)
         [
             inStockCount            :   productItemService.countByProductStatus(IN_STOCK.id),
             outStockCount           :   productItemService.countByProductStatus(OUT_STOCK.id),
@@ -47,8 +46,7 @@ class AuditoryController implements Controller {
         def barcodes= params?.barcodes ?: [] as Set<String>
         def searchValues =  productItemService.searchLike(value)
         def statusOuter  = {it.status.id == OUT_STOCK.id}
-        def checkBarcodes= {barcodes.contains(it.barcode)}
-        def groupByStatus = {it.status.id as Integer}
+        def checkBarcodes= {it.barcode in barcodes}
         def items= searchValues
         def notFounds= searchValues.findAll(statusOuter)
         def groupStatus= items.groupBy(groupByStatus)
@@ -79,10 +77,10 @@ class AuditoryController implements Controller {
         if(',' in barcodes)
             barcodes = barcodes.split(',')
         def barcodeExist = barcodes
-                .findAll {ProductItem.exists(it)}
+                .findAll(ProductItem::exists)
                 .collect {
                     def item = productItemService.get(it)
-                    item.status = ProductStatus.IN_STOCK
+                    item.status = IN_STOCK.id
                     item.assigned = null
                 }
                 .collect {it.save(flush: true)}
