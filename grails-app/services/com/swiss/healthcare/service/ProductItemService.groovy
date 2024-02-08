@@ -5,6 +5,7 @@ import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
 import grails.gorm.services.Service
 import grails.gorm.services.Where
+import groovy.transform.PackageScope
 
 @Service(ProductItem)
 abstract class ProductItemService {
@@ -30,6 +31,7 @@ abstract class ProductItemService {
         value.contains(',') ? value.split(',').collect(this::callCriteria).flatten() : callCriteria(value)
     }
 
+   @PackageScope
    def callCriteria(String value){
         ProductItem.createCriteria().list {
             or {
@@ -43,6 +45,6 @@ abstract class ProductItemService {
                 }
             }
         } as List<ProductItem>
-    }
+   }
 
 }

@@ -33,7 +33,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
         then:
         status == 202
-        view == '/successful'
+        view == '/login/successful'
     }
 
     def 'login user denied'() {
@@ -53,7 +53,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
         then:
         status == 401
-        view == '/rejection'
+        view == '/login/rejection'
     }
 
 }

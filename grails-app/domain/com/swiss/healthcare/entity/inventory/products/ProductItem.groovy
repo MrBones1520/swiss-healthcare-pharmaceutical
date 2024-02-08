@@ -14,8 +14,6 @@ class ProductItem implements GormEntity<ProductItem>{
 
     boolean enabled = true
 
-    static transients = ['productStatus']
-
     static constraints = {
         barcode unique: true, size: 7..25
         assigned nullable: true
