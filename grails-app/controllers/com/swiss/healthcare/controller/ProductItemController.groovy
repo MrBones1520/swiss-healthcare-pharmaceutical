@@ -1,5 +1,6 @@
 package com.swiss.healthcare.controller
 
+import com.swiss.healthcare.ProductStatusE
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
@@ -93,9 +94,9 @@ class ProductItemController extends RestfulController<ProductItem>{
     def index(){
         [
             products:       productItemService.findAll(),
-            stockInCount:   productItemService.countByProductStatus(1),
-            stockOutCount:  productItemService.countByProductStatus(2),
-            saleOutCount:   productItemService.countByProductStatus(3)
+            stockInCount:   productItemService.countByProductStatus(IN_STOCK.id),
+            stockOutCount:  productItemService.countByProductStatus(OUT_STOCK.id),
+            saleOutCount:   productItemService.countByProductStatus(OUT_SALE.id)
         ]
     }
 
@@ -103,7 +104,7 @@ class ProductItemController extends RestfulController<ProductItem>{
     def status(){
         def status0 = params.get('status').toString().toInteger()
         if(!ProductStatus.exists(status0))
-            return render(view: '/error')
+            return render(view: '/error', status: '204', model: [messageError: ''])
 
         [values: productItemService.findAllByProductStatus(status0)]
     }
@@ -112,7 +113,7 @@ class ProductItemController extends RestfulController<ProductItem>{
     def base(){
         def productBaseId = params['id'].toString().toInteger()
         if(!ProductBase.exists(productBaseId))
-            return render(view: 'error')
+            return render(view: '/error', status: '204', model: [messageError: "El producto base no existe con el valor $id".toString()])
 
         def all = productItemService.findAllByProductBase(productBaseId)
         def groupStatus = all.groupBy {it.status.id}
@@ -128,4 +129,16 @@ class ProductItemController extends RestfulController<ProductItem>{
         )
     }
 
+
+    @Transactional(readOnly = true)
+    def show(String id){
+        boolean exist = ProductItem.exists(id)
+        if(!exist){
+            String msgError = "No existe ningún producto con valor $id"
+            render(view: '/error', status: '204', model: [messageError: msgError])
+            return
+        }
+
+        super.show()
+    }
 }
