@@ -1,4 +1,4 @@
 json {
-    message  'Access Successful'
-    accessed true
+    message     g.message(code: 'login.successful')
+    accessed    true
 }

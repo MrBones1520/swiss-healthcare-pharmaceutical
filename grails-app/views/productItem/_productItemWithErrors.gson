@@ -4,5 +4,5 @@ model {
 
 json {
     barcode item?.barcode
-    errors tmpl.'/fieldError'("error", item.errors.fieldErrors)
+    errors tmpl.'/errors/errors'(errors: item.errors)
 }

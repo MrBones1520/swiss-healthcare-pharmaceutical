@@ -1,0 +1,7 @@
+model {
+    ProductItem item
+}
+
+json g.render(item){
+    message "El producto con el codigo de barras '$item.barcode' fue encontrado"
+}

@@ -13,8 +13,8 @@ class LoginController implements Controller {
         def user = userService.findByUsernameAndPassword(username0, password0)
 
         return render(
-                view:   user.username ? 'successful' : 'rejection',
-                status: user.username ? '202' : '401',
+                view:   user ? 'successful' : 'rejection',
+                status: user ? '202' : '401',
         )
     }
 }
