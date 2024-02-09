@@ -1,0 +1,12 @@
+model{
+    ProductBase base
+}
+
+json {
+    id              base.id
+    name            base.name
+    description     base.description
+    dateCreated     base.dateCreated
+    lastUpdated     base.lastUpdated
+    message         "Se ha creado un producto base"
+}

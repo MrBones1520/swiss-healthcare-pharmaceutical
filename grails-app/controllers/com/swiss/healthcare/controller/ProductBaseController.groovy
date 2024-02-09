@@ -20,11 +20,31 @@ class ProductBaseController extends RestfulController<ProductBase> {
 
     def show(int id){
         ProductBase base = productBaseService.get(id)
-        if(base){
+        if(base) {
             render([view: 'show', status: '200', model: [productBase: base]])
             return
         }
         String error = !id ? "El id es invalido" : !base ? "El producto base no existe: ${id}": ''
         render([view: '/error', status:'409', model: [messageError: error]])
     }
+
+    def save(){
+        ProductBase base = request.JSON as ProductBase
+        if(base.validate()){
+            render(view: 'save', model: [base: base.save()])
+            return
+        }
+        render(view: '/errors/_errors', model: [errors: base.errors])
+    }
+
+    def update(){
+        ProductBase base = request.JSON as ProductBase
+        if(base.validate()){
+            render(view: 'update', model: [base: base.save()])
+            return
+        }
+        render(view: '/errors/_errors', model: [errors: base.errors])
+    }
+
+
 }

@@ -3,9 +3,10 @@ model {
 }
 
 json {
-    id productBase.id
-    name productBase.name
+    id          productBase.id
+    name        productBase.name
     description productBase.description
     dateCreated productBase.dateCreated
     lastUpdated productBase.lastUpdated
+    message     "Se ha encontrado el producto base"
 }

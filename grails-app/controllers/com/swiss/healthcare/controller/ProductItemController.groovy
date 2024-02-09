@@ -57,13 +57,13 @@ class ProductItemController extends RestfulController<ProductItem>{
         def barcodes = request.JSON['barcodes'] as List<String>
         def baseItemBody = request.JSON as HashMap<String, Object>
         baseItemBody.remove('barcodes')
-
-        def items = barcodes.collect {
-            def originalItem = productItemService.get(it)
+        def status = ProductStatus.findAll().find {it.name == baseItemBody?.status }
+        def items = barcodes.collect {barcode ->
+            def originalItem = productItemService.get(barcode)
             def newItem = baseItemBody.clone() as ProductItem
 
             if(!originalItem) {
-                def notFound = new ProductItem(barcode: it)
+                def notFound = new ProductItem(barcode: barcode)
                 notFound.errors.rejectValue("barcode", "4000", "Product Item Not found")
                 return notFound
             }
@@ -73,14 +73,14 @@ class ProductItemController extends RestfulController<ProductItem>{
             else
                 originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
 
-            if(!ProductStatus.exists(newItem.status.ident()))
-                originalItem.status = ProductStatus.get(newItem.status.ident())
+            if(status)
+                originalItem.status = status
             else
                 originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
 
             return originalItem.validate() ?
-                    productItemService.update(it, newItem.assigned, newItem.base, newItem.status) :
-                    productItemService.get(it)
+                    productItemService.update(barcode, newItem.assigned, newItem.base, status) :
+                    productItemService.get(barcode)
         }.groupBy {it.isDirty()}
 
         render(
