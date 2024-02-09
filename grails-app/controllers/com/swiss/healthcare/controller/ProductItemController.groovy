@@ -1,6 +1,5 @@
 package com.swiss.healthcare.controller
 
-import com.swiss.healthcare.ProductStatusE
 import com.swiss.healthcare.entity.inventory.products.ProductBase
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.entity.inventory.products.ProductStatus
@@ -34,13 +33,13 @@ class ProductItemController extends RestfulController<ProductItem>{
             if(!newItem.validate())
                 return newItem
             if(ProductItem.exists(it)){
-                newItem.errors.rejectValue("barcode", "204", "Already exist")
+                newItem.errors.rejectValue("barcode","2000","productItem.barcode.unique")
                 return newItem
             }
             if(!ProductBase.exists(newItem.base.ident()))
-                newItem.errors.rejectValue("base.id", "1000", "Base id not found")
+                newItem.errors.rejectValue("base.id","productBase.notFound.message")
             if(!ProductStatus.exists(newItem.status.ident()))
-                newItem.errors.rejectValue("status.id", "1000", "Status id not found")
+                newItem.errors.rejectValue("status.id","productStatus.notFound.message")
 
             return newItem.errors.hasErrors() ? newItem : productItemService.save(newItem)
         }.groupBy { it.isAttached()}
@@ -64,19 +63,19 @@ class ProductItemController extends RestfulController<ProductItem>{
 
             if(!originalItem) {
                 def notFound = new ProductItem(barcode: barcode)
-                notFound.errors.rejectValue("barcode", "4000", "Product Item Not found")
+                notFound.errors.rejectValue("barcode","productItem.notFound.message")
                 return notFound
             }
 
             if(ProductBase.exists(newItem.base.ident()))
                 originalItem.base = ProductBase.get(newItem.base.ident())
             else
-                originalItem.errors.rejectValue("base.id", "1000", "Base id not found")
+                originalItem.errors.rejectValue("base.id","productBase.notFound.message")
 
             if(status)
                 originalItem.status = status
             else
-                originalItem.errors.rejectValue("status.id", "1000", "Status id not found")
+                originalItem.errors.rejectValue("status.id", "productStatus.notFound.message")
 
             return originalItem.validate() ?
                     productItemService.update(barcode, newItem.assigned, newItem.base, status) :

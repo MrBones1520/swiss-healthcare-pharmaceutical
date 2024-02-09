@@ -16,5 +16,6 @@ json {
     inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale])
     results             g.render(items)
     notFounds           g.render(listNotFound)
+    message             items ? "Se han encontrado ${items.size()} productos con el valor $searchValue" : "No hay ningun resultado para la busqueda de $searchValue"
 }
 

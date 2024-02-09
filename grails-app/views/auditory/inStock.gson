@@ -1,7 +1,10 @@
 model {
     List<ProductItem> items = []
+    List<String> notExist = []
 }
 
 json {
     stock g.render(items)
+    notExist notExist
+    message "Se han colocado ${items.size()} productos en almacen"
 }

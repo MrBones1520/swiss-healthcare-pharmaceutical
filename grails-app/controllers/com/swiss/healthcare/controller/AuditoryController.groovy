@@ -2,8 +2,10 @@ package com.swiss.healthcare.controller
 
 import com.swiss.healthcare.entity.inventory.products.ProductItem
 import com.swiss.healthcare.service.ProductItemService
+import com.swiss.healthcare.service.ProductStatusService
 import grails.artefact.Controller
 import grails.gorm.transactions.Transactional
+import org.springframework.http.HttpStatus
 
 import static com.swiss.healthcare.ProductStatusE.*
 
@@ -11,6 +13,7 @@ import static com.swiss.healthcare.ProductStatusE.*
 class AuditoryController implements Controller {
 
     ProductItemService productItemService
+    ProductStatusService productStatusService
     def groupByStatus = {it.status.id as Integer}
 
     def index(){
@@ -73,24 +76,29 @@ class AuditoryController implements Controller {
     }
 
     def inStock(){
+        def status = productStatusService.get(IN_STOCK.id)
         def barcodes = request.JSON?.barcodes
         if(',' in barcodes)
             barcodes = barcodes.split(',')
+
         def barcodeExist = barcodes
                 .findAll(ProductItem::exists)
                 .collect {
                     def item = productItemService.get(it)
-                    item.status = IN_STOCK.id
+                    item.status = status
                     item.assigned = null
+                    return item
                 }
                 .collect {it.save(flush: true)}
 
+        def barcodesNotExist = barcodes.findAll { !ProductItem.exists(it) }
+        HttpStatus
         if(!barcodeExist){
             request.status = '204'
             return
         }
 
-        ['items': barcodeExist]
+        [items: barcodeExist, notExist: barcodesNotExist]
     }
 
 }
