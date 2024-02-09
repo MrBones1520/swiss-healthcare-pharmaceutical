@@ -36,14 +36,15 @@ class ProductItemController extends RestfulController<ProductItem>{
                     if(!ProductBase.exists(original?.base?.id))
                         original.errors.reject('productBase.id.notfound')
 
+                    original.validate()
                     original
                 }
-                .groupBy {!it.hasErrors() && !it.isAttached()}
+                .groupBy {it.hasErrors()}
 
         render(
             view: 'save',
             status: items ? '200' : '204',
-            model: [saved: items.get(true)*.save(flush: true), errors: items.get(false)]
+            model: [saved: items[false]*.save(), errors: items[true]]
         )
     }
 
@@ -56,31 +57,22 @@ class ProductItemController extends RestfulController<ProductItem>{
         def base = ProductBase.get(baseItemBody?['base']?['id'])
         def items = barcodes
                 .collect {barcode ->
-                    def oldItem = productItemService.get(barcode)
-                    def newItem = baseItemBody.clone() as ProductItem
-
-                    if(oldItem){
-                        oldItem.errors.reject("productItem.notfound.message")
-                        return oldItem
+                    if(!ProductItem.exists(barcode)){
+                        def item = new ProductItem(barcode: barcode)
+                        item.errors.reject('productItem.notfound.message')
+                        return item
                     }
-
-                    if(ProductBase.exists(newItem.base.id))
-                        newItem.base = base
-                    else
-                        newItem.errors.reject("productBase.id.notfound")
-
-                    if(status)
-                        newItem.status = status
-                    else
-                        newItem.errors.reject("productStatus.id.notfound")
-
-                    newItem.hasErrors() ? newItem.save(flush: true) : oldItem
-                }.groupBy {it.isDirty()}
+                    def loadItem = ProductItem.load(barcode)
+                    loadItem.status = status
+                    loadItem.base = base
+                    loadItem.validate(['base', 'status'])
+                    loadItem
+                }.groupBy {it.hasErrors()}
 
         render(
                 view: 'save',
                 status: items ? '200' : '204',
-                model: [saved: items.get(true), errors: items.get(false)]
+                model: [saved: items.get(false)*.save(flush: true), errors: items.get(true)]
         )
     }
 
@@ -110,15 +102,15 @@ class ProductItemController extends RestfulController<ProductItem>{
             return render(view: '/error', status: '204', model: [messageError: "El producto base no existe con el valor $id".toString()])
 
         def all = productItemService.findAllByProductBase(productBaseId)
-        def groupStatus = all.groupBy {it.status.id}
+        def groupStatus = all.groupBy {it.status.id as Integer}
 
         render(
                 view: 'index',
                 model: [
                     products:       all,
-                    stockInCount:   groupStatus?.get(IN_STOCK.id)?.size()  ?: 0,
-                    stockOutCount:  groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
-                    saleOutCount:   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0
+                    stockInCount:   groupStatus?[IN_STOCK.id]?.size()  ?: 0,
+                    stockOutCount:  groupStatus?[OUT_STOCK.id]?.size() ?: 0,
+                    saleOutCount:   groupStatus?[OUT_SALE.id]?.size()  ?: 0
                 ]
         )
     }
