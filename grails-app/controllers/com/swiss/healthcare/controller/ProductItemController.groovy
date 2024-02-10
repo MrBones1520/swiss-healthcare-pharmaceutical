@@ -21,58 +21,38 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     @Transactional
     def save(){
-        def barcodes = request.JSON['barcodes'] as List<String>
-        def baseItemBody = request.JSON as HashMap<String, Object>
-        baseItemBody.remove('barcodes')
-        def items = barcodes
-                .collect {barcode ->
-                    def original = baseItemBody.clone() + [barcode: barcode] as ProductItem
-                    if (ProductItem.exists(barcode)) {
-                        original = ProductItem.get(barcode)
-                        original.errors.reject('productItem.barcode.notunique')
-                    }
-                    if(!ProductStatus.exists(original?.status?.id))
-                        original.errors.reject('productStatus.id.notfound')
-                    if(!ProductBase.exists(original?.base?.id))
-                        original.errors.reject('productBase.id.notfound')
+        def barcodes = request.JSON?.barcodes as List<String>
+        def baseItem = request.JSON as HashMap<String, Object>
+        baseItem.remove('barcodes')
 
-                    original.validate()
-                    original
-                }
-                .groupBy {it.hasErrors()}
+        def items = barcodes
+                .collect {productItemService.saveResolver(it, baseItem)}
+                .groupBy { it.hasErrors()}
 
         render(
             view: 'save',
             status: items ? '200' : '204',
-            model: [saved: items[false]*.save(), errors: items[true]]
+            model: [saved: items[false], errors: items[true]]
         )
     }
 
     @Transactional
     def update(){
         def barcodes = request.JSON['barcodes'] as List<String>
-        def baseItemBody = request.JSON as HashMap<String, Object>
-        baseItemBody.remove('barcodes')
-        def status = ProductStatus.findAll().find {it.name == baseItemBody?.status }
-        def base = ProductBase.get(baseItemBody?['base']?['id'])
+        def baseItem = request.JSON as HashMap<String, Object>
+        baseItem.remove('barcodes')
+
+        def status = ProductStatus.get(baseItem?.status?.id)
+        def base = ProductBase.get(baseItem?.base?.id)
+
         def items = barcodes
-                .collect {barcode ->
-                    if(!ProductItem.exists(barcode)){
-                        def item = new ProductItem(barcode: barcode)
-                        item.errors.reject('productItem.notfound.message')
-                        return item
-                    }
-                    def loadItem = ProductItem.load(barcode)
-                    loadItem.status = status
-                    loadItem.base = base
-                    loadItem.validate(['base', 'status'])
-                    loadItem
-                }.groupBy {it.hasErrors()}
+                .collect {productItemService.updateResolver(it, base, status) }
+                .groupBy {it.hasErrors()}
 
         render(
-                view: 'save',
-                status: items ? '200' : '204',
-                model: [saved: items.get(false)*.save(flush: true), errors: items.get(true)]
+            view: 'save',
+            status: items ? '200' : '204',
+            model: [saved: items[false], errors: items[true]]
         )
     }
 
@@ -88,7 +68,7 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     @Transactional(readOnly = true)
     def status(){
-        def status0 = params.get('status').toString().toInteger()
+        int status0 = params.get('status').toString().toInteger()
         if(!ProductStatus.exists(status0))
             return render(view: '/error', status: '204', model: [messageError: ''])
 
@@ -97,7 +77,7 @@ class ProductItemController extends RestfulController<ProductItem>{
 
     @Transactional(readOnly = true)
     def base(){
-        def productBaseId = params['id'].toString().toInteger()
+        int productBaseId = params['id'].toString().toInteger()
         if(!ProductBase.exists(productBaseId))
             return render(view: '/error', status: '204', model: [messageError: "El producto base no existe con el valor $id".toString()])
 
@@ -114,7 +94,6 @@ class ProductItemController extends RestfulController<ProductItem>{
                 ]
         )
     }
-
 
     @Transactional(readOnly = true)
     def show(String id){

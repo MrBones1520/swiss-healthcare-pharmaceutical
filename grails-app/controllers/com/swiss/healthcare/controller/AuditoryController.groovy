@@ -9,13 +9,13 @@ import org.springframework.http.HttpStatus
 
 import static com.swiss.healthcare.ProductStatusE.*
 
-@Transactional(readOnly = true)
 class AuditoryController implements Controller {
 
     ProductItemService productItemService
-    ProductStatusService productStatusService
+
     def groupByStatus = {it.status.id as Integer}
 
+    @Transactional(readOnly = true)
     def index(){
         def items = productItemService.findAll()
         def notFounds = items
@@ -44,11 +44,12 @@ class AuditoryController implements Controller {
         ]
     }
 
+    @Transactional(readOnly = true)
     def search(){
         String value = params?.value
         def barcodes= params?.barcodes ?: [] as Set<String>
         def searchValues =  productItemService.searchLike(value)
-        def statusOuter  = {it.status.id == OUT_STOCK.id}
+        def statusOuter  = {it.STATUS_IN_STOCK.id == OUT_STOCK.id}
         def checkBarcodes= {it.barcode in barcodes}
         def items= searchValues
         def notFounds= searchValues.findAll(statusOuter)
@@ -75,24 +76,18 @@ class AuditoryController implements Controller {
         )
     }
 
+    @Transactional
     def inStock(){
-        def status = productStatusService.get(IN_STOCK.id)
         def barcodes = request.JSON?.barcodes
         if(',' in barcodes)
             barcodes = barcodes.split(',')
 
         def barcodeExist = barcodes
                 .findAll(ProductItem::exists)
-                .collect {
-                    def item = productItemService.get(it)
-                    item.status = status
-                    item.assigned = null
-                    return item
-                }
-                .collect {it.save(flush: true)}
+                .collect(productItemService.changeInStock)
 
         def barcodesNotExist = barcodes.findAll { !ProductItem.exists(it) }
-        HttpStatus
+
         if(!barcodeExist){
             request.status = '204'
             return
