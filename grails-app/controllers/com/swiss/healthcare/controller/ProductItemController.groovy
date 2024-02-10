@@ -46,7 +46,7 @@ class ProductItemController extends RestfulController<ProductItem>{
         def base = ProductBase.get(baseItem?.base?.id)
 
         def items = barcodes
-                .collect {productItemService.updateResolver(it, base, status) }
+                .collect {productItemService.updateResolver(it, base, status, baseItem) }
                 .groupBy {it.hasErrors()}
 
         render(

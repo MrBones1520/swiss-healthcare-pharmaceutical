@@ -68,7 +68,7 @@ abstract class ProductItemService {
         productItem.validate() ? productItem.save() : productItem
     }
 
-    def updateResolver = { String barcode, ProductBase base, ProductStatus status ->
+    def updateResolver = { String barcode, ProductBase base, ProductStatus status, def baseItem ->
         def exist = ProductItem.exists(barcode)
         def loadItem = exist ? ProductItem.load(barcode) : new ProductItem(barcode: barcode)
 
@@ -86,6 +86,7 @@ abstract class ProductItemService {
 
         loadItem.status = status
         loadItem.base = base
+        loadItem.assigned = baseItem?.assigned
 
         loadItem.validate() ? loadItem.save(flush: true) : loadItem
     }
