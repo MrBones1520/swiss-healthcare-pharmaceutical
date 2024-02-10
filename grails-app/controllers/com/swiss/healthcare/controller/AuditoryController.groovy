@@ -23,7 +23,7 @@ class AuditoryController implements Controller {
         if(params.containsKey("barcodes")) {
             def barcodes = params['barcodes'].toString().split(',').toList()
             items = items.findAll {it.barcode in barcodes}
-            notFounds = notFounds.findAll {!barcodes.contains(it.barcode) && it.status.id == OUT_STOCK.id}
+            notFounds = notFounds.findAll {!barcodes.contains(it.barcode) && it.status.id != OUT_SALE.id}
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
                 def findBaseId = {it.base.id == baseId}
