@@ -1,3 +1,5 @@
+import static com.swiss.healthcare.ProductStatusE.IN_STOCK
+
 model {
     List<ProductItem> allItems      = []
     List<ProductItem> listNotFound  = []
@@ -10,8 +12,9 @@ model {
 }
 
 json {
+    int notFoundInStock = listNotFound?.findAll { it.status.id == IN_STOCK.id }?.size() ?: 0
     total               g.render([inStockCount , outStockCount, outSaleCount])
-    inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale])
+    inconsistencies     g.render([inconOutSale + inconOutStock + notFoundInStock, inconOutStock, inconOutSale])
     items               g.render(allItems)
     notFounds           g.render(listNotFound)
 }
