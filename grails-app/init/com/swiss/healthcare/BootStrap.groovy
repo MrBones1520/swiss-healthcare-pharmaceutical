@@ -24,7 +24,7 @@ class BootStrap {
     ProductItemService productItemService
 
     def init = { servletContext ->
-        if(ProductStatus.count == 0)
+        if(ProductStatus.count != 4)
             defaultStatus()
 
         if(User.count() == 0){
@@ -115,10 +115,18 @@ class BootStrap {
     }
 
     def defaultStatus(){
+        if(ProductStatus.count > 0)
+            ProductStatus.deleteAll(ProductStatus.findAll())
+
         log.info("Try create product status.gson")
-        [new ProductStatus(name: 'IN_STOCK', description: 'Product in stock'),
-         new ProductStatus(name: 'OUT_STOCK', description: 'Product out stock'),
-         new ProductStatus(name: 'OUT_SALE', description: 'Product out sale')].each { printCube(productStatusService.save(it))}
+        List<ProductStatus> statuses = ProductStatus.saveAll(
+                new ProductStatus(name: 'EN ALMACEN', description: 'Producto en almacen'),
+                new ProductStatus(name: 'FUERA DE ALMACEN', description: 'Producto fuera del almacen'),
+                new ProductStatus(name: 'VENDIDO', description: 'Producto vendido'),
+                new ProductStatus(name: 'PERDIDO', description: 'Producto no encontrado')
+        )
+
+        statuses.each { printCube(it)}
 
     }
 

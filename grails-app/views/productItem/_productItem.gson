@@ -5,7 +5,7 @@ model {
 json {
     barcode productItem.barcode
     base g.render(productItem.base)
-    status g.render(productItem.status, [excludes: ['description']])
+    status g.render(productItem.status)
     assigned productItem.assigned
     dateCreated productItem.dateCreated
     lastUpdated productItem.lastUpdated

@@ -1,9 +1,10 @@
 package com.swiss.healthcare
 
 enum ProductStatusE {
-    IN_STOCK(1, 'IN_STOCK', 'Product in stock'),
-    OUT_STOCK(2, 'OUT_STOCK', 'Product out stock'),
-    OUT_SALE(3, 'OUT_SALE', 'Product out sale')
+    IN_STOCK(1, 'EN ALMACEN', 'Prooducto en almacen'),
+    OUT_STOCK(2, 'FUERA DE ALMACEN', 'Producto fuera de almacen'),
+    OUT_SALE(3, 'VENDIDO', 'Producto vendido'),
+    LOST(4, 'PERDIDO', 'Producto perdido')
 
     int id
     String name
