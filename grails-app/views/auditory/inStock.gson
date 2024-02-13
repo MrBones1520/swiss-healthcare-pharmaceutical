@@ -1,10 +1,26 @@
+//import com.swiss.healthcare.entity.inventory.products.ProductItem
+
 model {
-    List<ProductItem> items = []
-    List<String> notExist = []
+    List<ProductItem>   inStock = []
+    List<String>        notExistInStock = []
+    List<ProductItem>   lostList = []
+    List<String>        notExistLost = []
 }
 
 json {
-    stock g.render(items)
-    notExist notExist
-    message "Se han colocado ${items.size()} productos en almacen"
+    stock {
+        changed         g.render(inStock)
+        notExist        notExistInStock
+    }
+    lost {
+        changed         g.render(lostList)
+        notExist        notExistLost
+    }
+    if(inStock && !lostList){
+        message         "Se han colocado ${inStock.size()} productos en almacen"
+    }else if(lostList){
+        message         "Se han colocado ${lostList.size()} productos en perdido"
+    }else{
+        message         "Se han colocado ${inStock.size()} productos en almacen y ${lostList.size()} productos en perdido"
+    }
 }

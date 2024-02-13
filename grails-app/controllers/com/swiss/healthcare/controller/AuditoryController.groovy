@@ -81,21 +81,28 @@ class AuditoryController implements Controller {
     @Transactional
     def inStock(){
         def barcodes = request.JSON?.barcodes
-        if(',' in barcodes)
-            barcodes = barcodes.split(',')
+        List<String> inStock = barcodes?.inStock
+        List<String> lost = barcodes?.lost
 
-        def barcodeExist = barcodes
-                .findAll(ProductItem::exists)
-                .collect(productItemService.changeInStock)
-
-        def barcodesNotExist = barcodes.findAll { !ProductItem.exists(it) }
-
-        if(!barcodeExist){
+        if(!barcodes || (!inStock && !lost)){
             request.status = '204'
             return
         }
 
-        [items: barcodeExist, notExist: barcodesNotExist]
+        def barcodesInStock = inStock?.groupBy(ProductItem::exists)
+        def existInStock = barcodesInStock?[true]?.collect(productItemService.changeInStock)
+        def notExistInStock = barcodesInStock?[false]
+
+        def barcodesLost = lost?.groupBy(ProductItem::exists)
+        def existLost = barcodesLost?[true]?.collect(productItemService.changeLost)
+        def notExistLost = barcodesLost?[false]
+
+        [
+                inStock: existInStock,
+                notExistInStock: notExistInStock,
+                lostList: existLost,
+                notExistLost: notExistLost
+        ]
     }
 
 }

@@ -4,7 +4,7 @@ enum ProductStatusE {
     IN_STOCK(1, 'EN ALMACEN', 'Prooducto en almacen'),
     OUT_STOCK(2, 'FUERA DE ALMACEN', 'Producto fuera de almacen'),
     OUT_SALE(3, 'VENDIDO', 'Producto vendido'),
-    LOST(4, 'PERDIDO', 'Producto perdido')
+    LOST(9, 'PERDIDO', 'Producto perdido')
 
     int id
     String name

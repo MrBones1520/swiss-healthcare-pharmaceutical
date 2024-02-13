@@ -8,6 +8,7 @@ import grails.gorm.services.Where
 import groovy.transform.PackageScope
 
 import static com.swiss.healthcare.ProductStatusE.IN_STOCK
+import static com.swiss.healthcare.ProductStatusE.LOST
 
 @Service(ProductItem)
 abstract class ProductItemService {
@@ -94,6 +95,14 @@ abstract class ProductItemService {
     def changeInStock = { String barcode ->
         def item = get(barcode)
         item.status = ProductStatus.get(IN_STOCK.id)
+        item.assigned = null
+        item.save(flush: true)
+    }
+
+
+    def changeLost = { String barcode ->
+        def item = get(barcode)
+        item.status = ProductStatus.get(LOST.id)
         item.assigned = null
         item.save(flush: true)
     }
