@@ -62,7 +62,8 @@ class ProductItemController extends RestfulController<ProductItem>{
             products:       productItemService.findAll(),
             stockInCount:   productItemService.countByProductStatus(IN_STOCK.id),
             stockOutCount:  productItemService.countByProductStatus(OUT_STOCK.id),
-            saleOutCount:   productItemService.countByProductStatus(OUT_SALE.id)
+            saleOutCount:   productItemService.countByProductStatus(OUT_SALE.id),
+            lostCount:      productItemService.countByProductStatus(LOST.id)
         ]
     }
 

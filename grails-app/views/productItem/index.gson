@@ -1,11 +1,12 @@
 model{
-    List<ProductItem> products = []
-    int stockInCount = 0
-    int stockOutCount = 0
-    int saleOutCount = 0
+    List<ProductItem> products  = []
+    int stockInCount            = 0
+    int stockOutCount           = 0
+    int saleOutCount            = 0
+    int lostCount               = 0
 }
 
 json {
-    total g.render([stockInCount, stockOutCount, saleOutCount])
+    total g.render([stockInCount, stockOutCount, saleOutCount, lostCount])
     items g.render(products)
 }
