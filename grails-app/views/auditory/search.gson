@@ -8,11 +8,12 @@ model {
     int inconOutSale                = 0
     int inconOutStock               = 0
     int inconNotfound               = listNotFound.size()
+    int lostCount                   = 0
 }
 
 json {
     search searchValue
-    total               g.render([inStockCount , outStockCount, outSaleCount])
+    total               g.render([inStockCount , outStockCount, outSaleCount, lostCount])
     inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale])
     results             g.render(items)
     notFounds           g.render(listNotFound)

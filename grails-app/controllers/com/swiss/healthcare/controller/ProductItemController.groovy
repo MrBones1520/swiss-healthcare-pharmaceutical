@@ -71,7 +71,7 @@ class ProductItemController extends RestfulController<ProductItem>{
     def status(){
         int status0 = params.get('status').toString().toInteger()
         if(!ProductStatus.exists(status0))
-            return render(view: '/error', status: '204', model: [messageError: ''])
+            return render(view: '/error', status: '204', model: [messageError: 'estatus not found'])
 
         [values: productItemService.findAllByProductStatus(status0)]
     }
@@ -91,7 +91,8 @@ class ProductItemController extends RestfulController<ProductItem>{
                     products:       all,
                     stockInCount:   groupStatus?[IN_STOCK.id]?.size()  ?: 0,
                     stockOutCount:  groupStatus?[OUT_STOCK.id]?.size() ?: 0,
-                    saleOutCount:   groupStatus?[OUT_SALE.id]?.size()  ?: 0
+                    saleOutCount:   groupStatus?[OUT_SALE.id]?.size()  ?: 0,
+                    lostCount:      groupStatus?[LOST.id]?.size()      ?: 0
                 ]
         )
     }

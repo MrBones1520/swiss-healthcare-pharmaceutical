@@ -35,6 +35,7 @@ class AuditoryController implements Controller {
             inStockCount            :   productItemService.countByProductStatus(IN_STOCK.id),
             outStockCount           :   productItemService.countByProductStatus(OUT_STOCK.id),
             outSaleCount            :   productItemService.countByProductStatus(OUT_SALE.id),
+            lostCount               :   productItemService.countByProductStatus(LOST.id),
             listNotFound            :   notFounds,
             allItems                :   items,
             inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0,
@@ -68,6 +69,7 @@ class AuditoryController implements Controller {
                         inStockCount            :   productItemService.countByProductStatus(IN_STOCK.id),
                         outStockCount           :   productItemService.countByProductStatus(OUT_STOCK.id),
                         outSaleCount            :   productItemService.countByProductStatus(OUT_SALE.id),
+                        lostCount               :   productItemService.countByProductStatus(LOST.id),
                         inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size() ?: 0,
                         inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
                 ]
