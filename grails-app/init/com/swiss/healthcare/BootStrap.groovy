@@ -115,8 +115,6 @@ class BootStrap {
     }
 
     def defaultStatus(){
-        ProductStatus.deleteAll(ProductStatus.findAll())
-
         log.info("Try create product status.gson")
         List<ProductStatus> statuses = ProductStatus.saveAll(
                 new ProductStatus(name: 'EN ALMACEN', description: 'Producto en almacen'),

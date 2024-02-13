@@ -21,7 +21,7 @@ class AuditoryController implements Controller {
         if(params.containsKey("barcodes")) {
             def barcodes = params['barcodes'].toString().split(',').toList()
             items = items.findAll {it.barcode in barcodes}
-            notFounds = notFounds.findAll {!barcodes.contains(it.barcode) && it.status.id != [OUT_SALE.id, LOST.id] }
+            notFounds = notFounds.findAll {!barcodes.contains(it.barcode) && it.status.id !in [OUT_SALE.id, LOST.id] }
             if(params.containsKey('baseId')){
                 def baseId = params['baseId'].toString().toLong()
                 def findBaseId = {it.base.id == baseId}
@@ -40,6 +40,7 @@ class AuditoryController implements Controller {
             allItems                :   items,
             inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0,
             inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
+            inconLost               :   groupStatus?.get(LOST.id)?.size() ?: 0,
         ]
     }
 
@@ -47,8 +48,8 @@ class AuditoryController implements Controller {
     def search(){
         String value = params?.value
         def barcodes= params?.barcodes ?: [] as Set<String>
-        def searchValues =  productItemService.searchLike(value)
-        def statusOuter  = {it.STATUS_IN_STOCK.id == OUT_STOCK.id}
+        def searchValues = productItemService.searchLike(value)
+        def statusOuter  = {it.status.id == OUT_STOCK.id}
         def checkBarcodes= {it.barcode in barcodes}
         def items= searchValues
         def notFounds= searchValues.findAll(statusOuter)
@@ -72,6 +73,7 @@ class AuditoryController implements Controller {
                         lostCount               :   productItemService.countByProductStatus(LOST.id),
                         inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size() ?: 0,
                         inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
+                        inconLost               :   groupStatus?.get(LOST.id)?.size() ?: 0,
                 ]
         )
     }

@@ -37,7 +37,7 @@ class ProductBaseControllerIntSpec extends Specification {
         controller.save()
 
         then:
-        resp.STATUS_IN_STOCK == HttpStatus.OK
+        resp.status == HttpStatus.OK
         resp.body()
 
 

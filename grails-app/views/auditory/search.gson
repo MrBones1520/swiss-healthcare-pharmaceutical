@@ -8,13 +8,14 @@ model {
     int inconOutSale                = 0
     int inconOutStock               = 0
     int inconNotfound               = listNotFound.size()
+    int inconLost                   = 0
     int lostCount                   = 0
 }
 
 json {
     search searchValue
     total               g.render([inStockCount , outStockCount, outSaleCount, lostCount])
-    inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale])
+    inconsistencies     g.render([inconOutSale + inconOutStock + inconNotfound, inconOutStock, inconOutSale, inconLost])
     results             g.render(items)
     notFounds           g.render(listNotFound)
     message             items ? "Se han encontrado ${items.size()} productos con el valor $searchValue" : "No hay ningun resultado para la busqueda de $searchValue"
