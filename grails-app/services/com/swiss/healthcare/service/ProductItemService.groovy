@@ -97,14 +97,15 @@ abstract class ProductItemService {
         item.status = ProductStatus.get(IN_STOCK.id)
         item.assigned = null
         item.save(flush: true)
+        item.barcode
     }
-
 
     def changeLost = { String barcode ->
         def item = get(barcode)
         item.status = ProductStatus.get(LOST.id)
         item.assigned = null
         item.save(flush: true)
+        item.barcode
     }
 
 }

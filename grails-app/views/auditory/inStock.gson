@@ -18,7 +18,7 @@ json {
     }
     if(inStock && !lostList){
         message         "Se han colocado ${inStock.size()} productos en almacen"
-    }else if(lostList){
+    }else if(!inStock && lostList){
         message         "Se han colocado ${lostList.size()} productos en perdido"
     }else{
         message         "Se han colocado ${inStock.size()} productos en almacen y ${lostList.size()} productos en perdido"
