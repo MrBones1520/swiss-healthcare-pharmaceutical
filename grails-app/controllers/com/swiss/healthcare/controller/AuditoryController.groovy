@@ -49,7 +49,7 @@ class AuditoryController implements Controller {
         String value = params?.value
         def barcodes= params?.barcodes ?: [] as Set<String>
         def searchValues = productItemService.searchLike(value)
-        def statusOuter  = {it.status.id == OUT_STOCK.id}
+        def statusOuter  = {it.status.id !in [OUT_STOCK.id, LOST.id]}
         def checkBarcodes= {it.barcode in barcodes}
         def items= searchValues
         def notFounds= searchValues.findAll(statusOuter)
