@@ -115,8 +115,7 @@ class BootStrap {
     }
 
     def defaultStatus(){
-        if(ProductStatus.count > 0)
-            ProductStatus.deleteAll(ProductStatus.findAll())
+        ProductStatus.deleteAll(ProductStatus.findAll())
 
         log.info("Try create product status.gson")
         List<ProductStatus> statuses = ProductStatus.saveAll(
