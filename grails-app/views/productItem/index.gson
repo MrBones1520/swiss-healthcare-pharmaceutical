@@ -4,9 +4,11 @@ model{
     int stockOutCount           = 0
     int saleOutCount            = 0
     int lostCount               = 0
+    int outCoreCount            = 0
+    int responCount             = 0
 }
 
 json {
-    total g.render([stockInCount, stockOutCount, saleOutCount, lostCount])
+    total g.render([stockInCount, stockOutCount, saleOutCount, lostCount, outCoreCount, responCount])
     items g.render(products)
 }

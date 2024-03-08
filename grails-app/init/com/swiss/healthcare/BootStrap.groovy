@@ -14,6 +14,8 @@ import com.swiss.healthcare.entity.people.Person
 import grails.util.Environment
 import groovy.util.logging.Log
 
+import static com.swiss.healthcare.ProductStatusE.*
+
 @Log
 class BootStrap {
 
@@ -68,27 +70,33 @@ class BootStrap {
 
             log.info("Try create product item")
             def productItem0 = productItemService.save(
-                    new ProductItem(barcode: "000000000", status: productStatusService.get(1), base: productBaseService.get(1)))
-             def productItem1 = productItemService.save(
-                        new ProductItem(barcode: "000000001", status: productStatusService.get(1), base: productBaseService.get(2)))
-             def productItem2 = productItemService.save(
-                        new ProductItem(barcode: "000000002", status: productStatusService.get(1), base: productBaseService.get(3)))
-             def productItem3 = productItemService.save(
-                        new ProductItem(barcode: "000000003", status: productStatusService.get(1), base: productBaseService.get(4)))
-             def productItem4 = productItemService.save(
-                        new ProductItem(barcode: "000000004", status: productStatusService.get(1), base: productBaseService.get(5)))
-             def productItem5 = productItemService.save(
-                        new ProductItem(barcode: "000000005", status: productStatusService.get(1), base: productBaseService.get(6)))
-             def productItem6 = productItemService.save(
-                        new ProductItem(barcode: "000000006", status: productStatusService.get(1), base: productBaseService.get(1)))
-             def productItem7 = productItemService.save(
-                            new ProductItem(barcode: "000000007", status: productStatusService.get(3), base: productBaseService.get(4)))
-             def productItem8 = productItemService.save(
-                            new ProductItem(barcode: "000000008", status: productStatusService.get(2), base: productBaseService.get(1)))
-             def productItem9 = productItemService.save(
-                            new ProductItem(barcode: "000000009", status: productStatusService.get(2), base: productBaseService.get(7)))
-             def productItem10 = productItemService.save(
-                            new ProductItem(barcode: "0000000010", status: productStatusService.get(2), base: productBaseService.get(1)))
+                    new ProductItem(barcode: "000000000", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(1)))
+            def productItem1 = productItemService.save(
+                        new ProductItem(barcode: "000000001", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(2)))
+            def productItem2 = productItemService.save(
+                        new ProductItem(barcode: "000000002", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(3)))
+            def productItem3 = productItemService.save(
+                        new ProductItem(barcode: "000000003", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(4)))
+            def productItem4 = productItemService.save(
+                        new ProductItem(barcode: "000000004", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(5)))
+            def productItem5 = productItemService.save(
+                        new ProductItem(barcode: "000000005", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(6)))
+            def productItem6 = productItemService.save(
+                        new ProductItem(barcode: "000000006", status: productStatusService.get(IN_STOCK.id), base: productBaseService.get(1)))
+            def productItem7 = productItemService.save(
+                            new ProductItem(barcode: "000000007", status: productStatusService.get(OUT_SALE.id), base: productBaseService.get(4)))
+            def productItem8 = productItemService.save(
+                            new ProductItem(barcode: "000000008", status: productStatusService.get(OUT_STOCK.id), base: productBaseService.get(1)))
+            def productItem9 = productItemService.save(
+                            new ProductItem(barcode: "000000009", status: productStatusService.get(OUT_STOCK.id), base: productBaseService.get(7)))
+            def productItem10 = productItemService.save(
+                            new ProductItem(barcode: "0000000010", status: productStatusService.get(OUT_STOCK.id), base: productBaseService.get(1)))
+            def productItem11 = productItemService.save(
+                            new ProductItem(barcode: "0000000011", status: productStatusService.get(OUT_CORE.id), base: productBaseService.get(1)))
+            def productItem12 = productItemService.save(
+                new ProductItem(barcode: "0000000012", status: productStatusService.get(RESPONSIBLE_SELLER.id), base: productBaseService.get(1)))
+            def productItem13 = productItemService.save(
+                new ProductItem(barcode: "0000000013", status: productStatusService.get(LOST.id), base: productBaseService.get(1)))
             printCube(productItem0)
             printCube(productItem1)
             printCube(productItem2)
@@ -100,6 +108,9 @@ class BootStrap {
             printCube(productItem8)
             printCube(productItem9)
             printCube(productItem10)
+            printCube(productItem11)
+            printCube(productItem12)
+            printCube(productItem13)
 
 
             log.info("Try create sale")
@@ -117,10 +128,12 @@ class BootStrap {
     def defaultStatus(){
         log.info("Try create product status.gson")
         List<ProductStatus> statuses = ProductStatus.saveAll(
-                new ProductStatus(name: 'EN ALMACEN', description: 'Producto en almacen'),
+                new ProductStatus(name: 'NUCLÉO', description: 'Producto en almacen/nucléo'),
                 new ProductStatus(name: 'FUERA DE ALMACEN', description: 'Producto fuera del almacen'),
                 new ProductStatus(name: 'VENDIDO', description: 'Producto vendido'),
-                new ProductStatus(name: 'PERDIDO', description: 'Producto no encontrado')
+                new ProductStatus(name: 'PERDIDO', description: 'Producto no encontrado'),
+                new ProductStatus(name: 'FUERA DE NUCLÉO', description: 'Producto en Oficina/Sin Responsable asociado'),
+                new ProductStatus(name: 'VENDEDOR RESPONSABLE', description: 'Producto con responsable asociado')
         )
 
         statuses.each { printCube(it)}

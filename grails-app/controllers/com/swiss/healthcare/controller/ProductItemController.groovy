@@ -63,7 +63,9 @@ class ProductItemController extends RestfulController<ProductItem>{
             stockInCount:   productItemService.countByProductStatus(IN_STOCK.id),
             stockOutCount:  productItemService.countByProductStatus(OUT_STOCK.id),
             saleOutCount:   productItemService.countByProductStatus(OUT_SALE.id),
-            lostCount:      productItemService.countByProductStatus(LOST.id)
+            lostCount:      productItemService.countByProductStatus(LOST.id),
+            outCoreCount:   productItemService.countByProductStatus(OUT_CORE.id),
+            responCount:    productItemService.countByProductStatus(RESPONSIBLE_SELLER.id)
         ]
     }
 
@@ -89,10 +91,12 @@ class ProductItemController extends RestfulController<ProductItem>{
                 view: 'index',
                 model: [
                     products:       all,
-                    stockInCount:   groupStatus?[IN_STOCK.id]?.size()  ?: 0,
-                    stockOutCount:  groupStatus?[OUT_STOCK.id]?.size() ?: 0,
-                    saleOutCount:   groupStatus?[OUT_SALE.id]?.size()  ?: 0,
-                    lostCount:      groupStatus?[LOST.id]?.size()      ?: 0
+                    stockInCount:   groupStatus?[IN_STOCK.id]?.size()               ?: 0,
+                    stockOutCount:  groupStatus?[OUT_STOCK.id]?.size()              ?: 0,
+                    saleOutCount:   groupStatus?[OUT_SALE.id]?.size()               ?: 0,
+                    lostCount:      groupStatus?[LOST.id]?.size()                   ?: 0,
+                    outCoreCount:   groupStatus?[OUT_CORE.id]?.size()               ?: 0,
+                    responCount:    groupStatus?[RESPONSIBLE_SELLER.id]?.size()     ?: 0
                 ]
         )
     }
