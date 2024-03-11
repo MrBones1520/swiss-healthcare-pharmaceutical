@@ -11,6 +11,8 @@ model {
     int inconOutStock               = 0
     int inconNotfound               = listNotFound.size()
     int inconLost                   = 0
+    int inconOutCore                = 0
+    int inconResponsible            = 0
     int lostCount                   = 0
     int outCoreCount                = 0
     int responCount                 = 0
@@ -18,9 +20,12 @@ model {
 
 json {
     int notFoundInStock = listNotFound?.findAll { it.status.id == IN_STOCK.id }?.size() ?: 0
+    def totals = [inStockCount , outStockCount, outSaleCount, lostCount, outCoreCount, responCount]
+    def inconsistency = [notFoundInStock, inconOutStock, inconOutSale, inconLost, inconOutCore, inconResponsible]
+
     search searchValue
-    total               g.render([inStockCount , outStockCount, outSaleCount, lostCount, outCoreCount, responCount])
-    inconsistencies     g.render([notFoundInStock, inconOutStock, inconOutSale, inconLost])
+    total               g.render(totals)
+    inconsistencies     g.render(inconsistency)
     results             g.render(items)
     notFounds           g.render(listNotFound)
     message             items ? "Se han encontrado ${items.size()} productos con el valor $searchValue" : "No hay ningun resultado para la busqueda de $searchValue"

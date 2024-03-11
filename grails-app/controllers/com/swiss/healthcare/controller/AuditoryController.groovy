@@ -43,6 +43,8 @@ class AuditoryController implements Controller {
             inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size()  ?: 0,
             inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
             inconLost               :   groupStatus?.get(LOST.id)?.size() ?: 0,
+            inconOutCore            :   groupStatus?.get(OUT_CORE.id)?.size() ?: 0,
+            inconResponsible        :   groupStatus?.get(RESPONSIBLE_SELLER.id)?.size() ?: 0
         ]
     }
 
@@ -78,6 +80,8 @@ class AuditoryController implements Controller {
                         inconOutSale            :   groupStatus?.get(OUT_SALE.id)?.size() ?: 0,
                         inconOutStock           :   groupStatus?.get(OUT_STOCK.id)?.size() ?: 0,
                         inconLost               :   groupStatus?.get(LOST.id)?.size() ?: 0,
+                        inconOutCore            :   groupStatus?.get(OUT_CORE.id)?.size() ?: 0,
+                        inconResponsible        :   groupStatus?.get(RESPONSIBLE_SELLER.id)?.size() ?: 0
                 ]
         )
     }
